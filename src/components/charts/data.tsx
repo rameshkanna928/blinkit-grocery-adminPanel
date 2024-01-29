@@ -1,4 +1,6 @@
-import { ColorGreen, ColorLightGreen } from "../../assets/styles/color";
+import { useSelector } from "react-redux";
+import { ColorDarkGray, ColorGray, ColorGreen, ColorLightAsh, ColorLightGreen } from "../../assets/styles/color";
+
 
 export const EarningChartOptions = {
   responsive: true,
@@ -161,7 +163,7 @@ export const MonthlySalesChartData = {
   ],
 };
 
-export const ordersChartdata = {
+export const ordersChartdata:any = {
   labels: [
     "Red",
     "Blue",
@@ -281,38 +283,12 @@ export const categoryChartOptions = {
       display: true,
       position: "right",
       labels: {
-        color: "#373D3F",
+        color:ColorGray,
         usePointStyle: true,
         pointStyle: "circle",
         pointStyleWidth: 15,
       },
     },
-    legendCallback: (chart) => {
-      const renderLabels = (chart) => {
-        const { data } = chart;
-        return data.datasets[0].data
-          .map(
-            (_, i) =>
-              `<li>
-                    <div id="legend-${i}-item" class="legend-item">
-                      <span style="background-color:
-                        ${data.datasets[0].backgroundColor[i]}">
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                      </span>
-                      ${
-                        data.labels[i] &&
-                        `<span class="label">${data.labels[i]}: $${data.datasets[0].data[i]}</span>`
-                      }
-                    </div>
-                </li>
-              `
-          )
-          .join("");
-      };
-      return `
-          <ul class="chartjs-legend">
-            ${renderLabels(chart)}
-          </ul>`;
-    },
+
   },
 };

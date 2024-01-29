@@ -1,41 +1,38 @@
-import { Grid, Stack, InputLabel, Box } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import {
-  ParentStack,
-  PageHeader,
-  Heading2,
-  SpaceContainer,
-} from "../assets/styles";
-import { ColorGreen, ColorDarkGreen, ColorWhite } from "../assets/styles/color";
-import { VariationTableDatas, StatusOptions } from "../utils";
-import { saveIcon } from "../utils/icons";
-import ReuseButton from "./elements/buttons/ReusableButton";
-import SearchButton from "./elements/buttons/search";
-import CustomSelect from "./elements/inputs/CustomSelect";
-import CustomTextInput from "./elements/inputs/CustomtextInput";
-import TableComponent from "./elements/table";
+import { Stack, Box } from "@mui/material";
+import { useEffect, useState } from "react";
+import { ParentStack } from "../assets/styles";
+
 import ScrollProgresscard from "./scrollProgresscard";
 
-function ProgressPageContainer({ progressValArr, refHolder, children,progressName }) {
-    const [currentRefs,setCurrentRefs] =useState([])
-    useEffect(()=>{
-     setCurrentRefs(refHolder)
-    },[refHolder])
+function ProgressPageContainer({
+  progressValArr,
+  refHolder,
+  children,
+  progressName,
+}) {
+  const [currentRefs, setCurrentRefs] = useState([]);
+  useEffect(() => {
+    setCurrentRefs(refHolder);
+  }, [refHolder]);
   return (
-    <Grid container justifyContent={"space-between"} alignItems={"flex-start"}>
-      <Grid item sm={9}>
+    <Stack
+      width={"100%"}
+      justifyContent={"space-between"}
+      alignItems={"flex-start"}
+      direction={{ sm: "column-reverse", lg: "row" }}
+      gap={2}
+    >
+      <Box maxWidth={"1000px"} width={"100%"}>
         <ParentStack>{children}</ParentStack>
-      </Grid>
+      </Box>
 
       <ScrollProgresscard
         progressName={progressName}
         progressValArr={progressValArr}
         refContainer={currentRefs}
       />
-    </Grid>
+    </Stack>
   );
 }
 
 export default ProgressPageContainer;
-
-

@@ -8,12 +8,10 @@ import { ColorGreen, ColorDarkGreen, ColorWhite } from "../../assets/styles/colo
 import ReuseButton from "../../components/elements/buttons/ReusableButton";
 import PageHeaderComponent from "../../components/parts/pageheader";
 import ProgressPageContainer from "../../components/progressPageContainer";
-import { EnableRefundOptions } from "../../utils";
+import { EnableRefundOptions, ProgressValueArrContainer } from "../../utils";
 
 function RefundsConfigurations() {
-  const progressValArr = [
-    { label: "Refund Information", val: "Refund Information" },
-  ];
+
   const { refHolder, pushrefFn } = useRefContainer();
   return (
     <ParentStack>
@@ -21,7 +19,7 @@ function RefundsConfigurations() {
         <></>
       </PageHeaderComponent>
       <ProgressPageContainer
-        progressValArr={progressValArr}
+        progressValArr={ProgressValueArrContainer.refundConfigurations}
         refHolder={refHolder}
         progressName={"Refund Information"}
       >

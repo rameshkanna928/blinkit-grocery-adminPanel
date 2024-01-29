@@ -6,7 +6,7 @@ function IconText({ icon, startIcon, text }) {
     <div>
       {startIcon ? (
         <CustomSubList style={{padding:0}}>
-          <FlexStart style={{ columnGap: "10px",padding:"5px 15px" }}>
+          <FlexStart direction={"row"} style={{ columnGap: "10px",padding:"5px 15px" }}>
             {icon}
             {text}
           </FlexStart>

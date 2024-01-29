@@ -19,16 +19,13 @@ import CustomSelect from "../../components/elements/inputs/CustomSelect";
 import CustomTextInput from "../../components/elements/inputs/CustomtextInput";
 import TableComponent from "../../components/elements/table";
 import ScrollProgresscard from "../../components/scrollProgresscard";
-import { VariationTableDatas, StatusOptions } from "../../utils";
+import { VariationTableDatas, StatusOptions, ProgressValueArrContainer } from "../../utils";
 import { saveIcon } from "../../utils/icons";
 import useRefContainer from "../../Hooks/useRefContainer";
 import ProgressPageContainer from "../../components/progressPageContainer";
 
 function AllUnits() {
-  const progressValArr = [
-    { label: "All Units", val: "All Units" },
-    { label: "Add New Unit", val: "Add New Unit" },
-  ];
+
   const { refHolder, pushrefFn } = useRefContainer();
   console.log("checkproductUnitsRef", refHolder);
 
@@ -38,7 +35,7 @@ function AllUnits() {
         <></>
       </PageHeaderComponent>
       <ProgressPageContainer
-        progressValArr={progressValArr}
+        progressValArr={ProgressValueArrContainer.productAllUnits}
         refHolder={refHolder}
         progressName={"Unit Information"}
       >

@@ -41,6 +41,8 @@ import CustomDropDown from "../../components/elements/CustomDropDown";
 import ToolDropdown from "../../components/toolbar/ToolDropdown";
 import { deleteIcon, editIcon, viewIcon } from "../../utils/icons";
 import CustomTextInput from "../../components/elements/inputs/CustomtextInput";
+import { setCurrentRouteId } from "../../redux/slices/SideBarSlice";
+import { RoutePaths } from "../../routes";
 function AllProducts() {
   let getStorageItem = JSON.parse(
     JSON.stringify(localStorage.getItem("tablePageNumbers"))
@@ -79,8 +81,8 @@ function AllProducts() {
       ...prev,
       rowData: curdata?.data?.map((obj: any, i: number) => {
         return {
-          "1": <SpanTag>{(pageNumber - 1) * 10 + i + 1}</SpanTag>,
-          "2": (
+          "S/L": <SpanTag>{(pageNumber - 1) * 10 + i + 1}</SpanTag>,
+          "Product Name": (
             <TableItems
               imgH={30}
               imgW={30}
@@ -92,24 +94,24 @@ function AllProducts() {
               space={false}
             />
           ),
-          "3": <SmallSpan>{obj?.ProductType?.name}</SmallSpan>,
-          "4": (
+          ProductType: <SmallSpan>{obj?.ProductType?.name}</SmallSpan>,
+          Categories: (
             <TableStatusCard status={obj?.ProductType?.productCategory?.name} />
           ),
-          "5": (
+          Price: (
             <CountTag style={{ color: "#FF7C08" }}>
               ₹{NumberFormatter(obj?.variant?.[0]?.price)}
             </CountTag>
           ),
-          "6": <ToogleButton value={obj?.isActive} />,
-          "7": (
-              <ToolDropdown
-                arr={[
-                  { text: "Edit", icon: editIcon },
-                  { text: "View Details", icon: viewIcon },
-                ]}
-                width={"100%"}
-              />
+          Active: <ToogleButton value={obj?.isActive} />,
+          Actions: (
+            <ToolDropdown
+              arr={[
+                { text: "Edit", icon: editIcon },
+                { text: "View Details", icon: viewIcon },
+              ]}
+              width={"100%"}
+            />
           ),
         };
       }),
@@ -136,6 +138,10 @@ function AllProducts() {
 
   console.log("asStore12", tableData);
 
+  function dispatch(arg0: any): void {
+    throw new Error("Function not implemented.");
+  }
+
   return (
     <ParentStack>
       <PageHeaderComponent pageName="Products">
@@ -157,66 +163,64 @@ function AllProducts() {
           textColor={ColorWhite}
           routeLink={""}
         />
-        <ReuseButton
-          color={ColorGreen}
-          iconPadding={"0 5px"}
-          icon={<FiPlus />}
-          text={"Add Product"}
-          hovercolor={ColorDarkGreen}
-          textColor={ColorWhite}
+          <ReuseButton
+            color={ColorGreen}
+            iconPadding={"0 5px"}
+            icon={<FiPlus />}
+            text={"Add Product"}
+            hovercolor={ColorDarkGreen}
+            textColor={ColorWhite}
+            routeLink={RoutePaths.products.addProduct}
+          />
+      </PageHeaderComponent>
+      <TableComponent
+        tableData={tableData}
+        totalRows={curdata?.count}
+        page={pageNumber}
+        setPageNumber={setPageNumber}
+      >
+        <CustomTextInput
+          changeFunction={(value: string) => handleFormdatas("search", value)}
+          iconState={true}
+          holderText={"search"}
+        />
+
+        <CustomSelect
+          formData={formDatas}
+          setFormData={(name: string, value: string) =>
+            handleFormdatas(name, value)
+          }
+          width={"250px"}
+          search={true}
+          options={categoryOptions}
+          propertyName={"category"}
+        />
+        <CustomSelect
+          formData={formDatas}
+          setFormData={(name: string, value: string) =>
+            handleFormdatas(name, value)
+          }
+          width={"200px"}
+          search={false}
+          options={StatusOptions}
+          propertyName={"status"}
+        />
+
+        <SearchButton
+          theme={"white"}
+          onClick={() => {
+            fetchdatas({
+              ...formDatas,
+              status: StatusBooleanChanger(formDatas?.status),
+              category:
+                formDatas?.category === "Select Category"
+                  ? null
+                  : formDatas?.category,
+            });
+          }}
           routeLink={""}
         />
-      </PageHeaderComponent>
-      {tableData?.rowData && tableData?.rowData?.length && (
-        <TableComponent
-          tableData={tableData}
-          totalRows={curdata?.count}
-          page={pageNumber}
-          setPageNumber={setPageNumber}
-        >
-          <CustomTextInput
-            changeFunction={(value: string) => handleFormdatas("search", value)}
-            iconState={true}
-            holderText={"search"}
-          />
-
-          <CustomSelect
-            formData={formDatas}
-            setFormData={(name: string, value: string) =>
-              handleFormdatas(name, value)
-            }
-            width={"250px"}
-            search={true}
-            options={categoryOptions}
-            propertyName={"category"}
-          />
-          <CustomSelect
-            formData={formDatas}
-            setFormData={(name: string, value: string) =>
-              handleFormdatas(name, value)
-            }
-            width={"200px"}
-            search={false}
-            options={StatusOptions}
-            propertyName={"status"}
-          />
-
-          <SearchButton
-            theme={"white"}
-            onClick={() => {
-              fetchdatas({
-                ...formDatas,
-                status: StatusBooleanChanger(formDatas?.status),
-                category:
-                  formDatas?.category === "Select Category"
-                    ? null
-                    : formDatas?.category,
-              });
-            }}
-            routeLink={""}
-          />
-        </TableComponent>
-      )}
+      </TableComponent>
     </ParentStack>
   );
 }

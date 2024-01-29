@@ -3,7 +3,7 @@ import { TableHeaderContainer } from '../../assets/styles'
 
 function TableHeader({children}) {
   return (
-    <TableHeaderContainer>
+    <TableHeaderContainer direction={"row"}>
      {children}
     </TableHeaderContainer>
   )

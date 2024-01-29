@@ -8,10 +8,13 @@ import { IChartApiData } from "./areaCharts";
 
 Chart.register(ArcElement, Tooltip, Legend);
 interface Iprops {
-  ApiData: IChartApiData;
+  ApiData:any;
 }
 export function BarChart({ ApiData }: Iprops) {
-  const [chartDatas, setChartDatas] = useState(ordersChartdata);
+  const [chartDatas, setChartDatas] = useState<{
+    lables:string[];
+    datasets:{}[];
+  }>(ordersChartdata);
   useEffect(() => {
     if (ApiData?.date)
       setChartDatas((prev) => ({

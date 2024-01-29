@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   FlexBetween,
   FlexBox,
@@ -11,14 +11,24 @@ import {
   ColorLightAsh,
   LightBorderColor,
 } from "../../assets/styles/color";
-import ReUseDrawer from "./ReusableDrawer";
+import ReUseDrawer from "./CustomDrawer";
 import { IoCloseOutline } from "react-icons/io5";
 import { onClose } from "../../redux/slices/DrawerSlide";
 import { Box, Stack } from "@mui/material";
+import CustomDrawer from "./CustomDrawer";
 function GalleryDrawer() {
   const dispatch = useDispatch();
+  const { open } = useSelector((state) => state.drawer);
+  console.log("gc", open);
+
   return (
-    <ReUseDrawer position={"bottom"}>
+    <CustomDrawer
+      position={"bottom"}
+      open={open}
+      onclose={function (): {} {
+        dispatch(onClose());
+      }}
+    >
       <Box height={"85vh"}>
         <FlexBetween
           style={{
@@ -48,7 +58,7 @@ function GalleryDrawer() {
           </ParentStack>
         </Stack>
       </Box>
-    </ReUseDrawer>
+    </CustomDrawer>
   );
 }
 

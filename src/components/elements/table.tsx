@@ -4,23 +4,16 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import {
-  CommonCard,
-  FlexBetween,
-  SpanTag,
-  TableSpan,
-} from "../../assets/styles";
+import { CommonCard, FlexBetween, SpanTag } from "../../assets/styles";
 import TableHeader from "./Tableheader";
 import { Pagination, Stack } from "@mui/material";
-import { ColorBlack, ColorGreen } from "../../assets/styles/color";
-import { useEffect, useRef, useState } from "react";
-import $ from "jquery";
-import "datatables.net";
-import "datatables.net-responsive";
-import "datatables.net-rowreorder";
-import DataTable from "datatables.net";
-import ReactDataTables from "./ReactDataTable";
-import TableItems from "./TableItems";
+import { ColorBlack, ColorDarkGray, ColorGreen, ColorLightAsh, LightBorderColor } from "../../assets/styles/color";
+import DataTable from "react-data-table-component";
+import ExpandableTable from "../ExpandableTable";
+import index from "../parts/Sidebar";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { darkTheme, lightTheme } from "../theme";
 
 interface IProps {
   tableData: {
@@ -39,125 +32,80 @@ function TableComponent({
   totalRows,
   page,
 }: IProps) {
+  const { status } = useSelector((state) => state?.mode);
+  const [scrollWidth, setScrollWidth] = useState(window?.innerWidth);
+  const ExpandedComponent = ({ data }) => {
+    // const parsedObj = JSON.parse(data);
+    // console.log("adfsdfgfs", data);
 
-  const tableRef = useRef<HTMLDivElement>(null);
-  // const [columnVisibility, setColumnVisibility] = useState({});
+    return <ExpandableTable data={data} />;
+  };
+
   useEffect(() => {
-    $(document).ready(function () {
-      $('#example').DataTable({
-        data: tableData?.rowData,
-        columns: [
-          { data: "1" },
-          { data: "2" },
-          { data: "3" },
-          { data: "4" },
-          { data: "5" },
-          { data: "6" },
-          { data: "7" },
-          { data: "8" },
-        ],
-        columnDefs: [
-          {
-            targets: [0, 1, 3, 4, 5, 6, 7], // Specify the columns with JSX elements
-            render: function (data, type, row, meta) {
-              return type === 'display' ? $(data).prop('outerHTML') : data;
-            },
-          },
-        ],
-      });
-    });
-  }, [tableData]);
+    const handleWindowResize = () => {
+      setScrollWidth(window?.innerWidth);
+    };
 
+    window.addEventListener("resize", handleWindowResize);
 
+    return () => {
+      window.removeEventListener("resize", handleWindowResize);
+    };
+  }, []);
+  const customStyles = {
+    rows: {
+      style: {
+        backgroundColor:
+          status === "light"
+            ? lightTheme.partBackground
+            : darkTheme.partBackground,
 
-
-
-  const data = [
-  {
-    id: "1",
-    name: "Tiger Nixon",
-    position: "System Architect",
-    salary: "$320,800",
-    start_date: "2011/04/25",
-    office: "Edinburgh",
-    extn: "5421",
-  },
-  {
-    id: "2",
-    name: "Garrett Winters",
-    position: "Accountant",
-    salary: "$170,750",
-    start_date: "2011/07/25",
-    office: "Tokyo",
-    extn: "8422",
-  },
-];
-
-const columns = [
-  { data: "name", title: "Name" },
-  { data: "position", title: "Position" },
-];
+      },
+    },
+    headCells: {
+      style: {
+        backgroundColor:
+          status === "light"
+            ? lightTheme.partBackground
+            : darkTheme.partBackground,
+        color:
+          status === "light"
+            ? lightTheme.blackText
+            : darkTheme.blackText,
+      },
+    },
+    headRow: {
+      style: {
+       borderBottomColor: status === "light"?LightBorderColor:ColorDarkGray
+      },
+    },
+    cells: {
+      style: {},
+    },
+  };
   return (
     <CommonCard>
       <Stack width={"100%"}>
         {children && <TableHeader>{children}</TableHeader>}
 
-        <TableContainer
-          component={Stack}
-          sx={{ borderBottom: `1px solid #E0E0E0` }}
-        >
-          <Table
-            // ref={tableRef}
-            className="table table-striped"
-            width="100%"
-            // id="example"
-          >
-            <TableHead>
-              <TableRow>
-                {tableData?.columnHeader?.map((data, index, arr) => (
-                  <TableCell
-                    width={data === "S/L" ? "10px" : "auto"}
-                    key={index}
-                    sx={{
-                      fontWeight: 600,
-                      padding: "12px 20px",
-                      color: ColorBlack,
-                    }}
-                    align={index === arr.length - 1 ? "right" : "left"}
-                  >
-                    {data}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {tableData?.rowData?.map((data, i) => (
-                <TableRow
-                  key={i}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  {Object.values(data).map((value, index, arr) => (
-                    <TableCell
-                      key={index}
-                      align={index === arr.length - 1 ? "right" : "left"}
-                    >
-                      {value}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <DataTable
+          customStyles={customStyles}
+          columns={tableData.columnHeader}
+          data={tableData.rowData}
+          expandableRows={scrollWidth <= 1280 ? true : false}
+          expandableRowsComponent={ExpandedComponent}
+        />
 
-        {/* {tableData?.rowData?.length > 0 && (
-          <FlexBetween style={{ padding: "20px" }}>
+        {tableData?.rowData?.length > 0 && (
+          <FlexBetween
+            style={{ padding: "20px" }}
+            alignItems={"start"}
+            direction={"row"}
+          >
             <SpanTag>
-              Showing results of {index} -{" "}
-              {tableData?.rowData?.length === 10
-                ? tableData?.rowData?.[9]?.["1"]
-                : tableData?.rowData?.length}{" "}
-              of {totalRows ? totalRows : tableData?.rowData?.length} results
+              Showing results of {tableData?.rowData?.[0]?.["S/L"]} -{" "}
+              {tableData?.rowData?.[tableData?.rowData?.length - 1]?.["S/L"]} of{" "}
+              {totalRows ? totalRows : tableData?.rowData?.length} results
             </SpanTag>
             {totalRows > 10 && (
               <Pagination
@@ -197,15 +145,7 @@ const columns = [
               />
             )}
           </FlexBetween>
-        )} */}
-        {/* <ReactDataTables data={[]} columns={[
-    { name: 'id', title: 'ID', visible: false },
-    { name: 'firstName', title: 'First Name' },
-    { name: 'lastName', title: 'Last Name' },
-    { name: 'jobTitle', title: 'Job Title' },
-    { name: 'started', title: 'Started On', breakpoints: 'xs sm' },
-    { name: 'dob', title: 'Date of Birth', breakpoints: 'all' },
-  ]}  /> */}
+        )}
       </Stack>
     </CommonCard>
   );

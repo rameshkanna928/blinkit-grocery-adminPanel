@@ -15,7 +15,11 @@ import TableComponent from "../../components/elements/table";
 import CustomSelect from "../../components/elements/inputs/CustomSelect";
 import ReusableSearch from "../../components/elements/inputs/CustomtextInput";
 import SearchButton from "../../components/elements/buttons/search";
-import { StatusOptions, VariationTableDatas } from "../../utils";
+import {
+  ProgressValueArrContainer,
+  StatusOptions,
+  VariationTableDatas,
+} from "../../utils";
 import ScrollProgresscard from "../../components/scrollProgresscard";
 import ReuseButton from "../../components/elements/buttons/ReusableButton";
 import {
@@ -33,11 +37,6 @@ function AllVariations() {
   const { refHolder, pushrefFn } = useRefContainer();
   console.log("checkproductVariationsRef", refHolder);
 
-  const progressValArr = [
-    { label: "All Variations", val: "All Variations" },
-    { label: "Add New Variation", val: "Add New Variation" },
-  ];
-
   return (
     <ParentStack>
       <PageHeaderComponent pageName="Variations">
@@ -45,7 +44,7 @@ function AllVariations() {
       </PageHeaderComponent>
 
       <ProgressPageContainer
-        progressValArr={progressValArr}
+        progressValArr={ProgressValueArrContainer.productAllVariations}
         refHolder={refHolder}
         progressName={"Variation Information"}
       >

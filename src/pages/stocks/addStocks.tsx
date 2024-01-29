@@ -18,7 +18,7 @@ import CustomTextInput from "../../components/elements/inputs/CustomtextInput";
 import { saveIcon } from "../../utils/icons";
 import useRefContainer from "../../Hooks/useRefContainer";
 import CustomSelect from "../../components/elements/inputs/CustomSelect";
-import { LocationList, ProductList, setFormDataByComp } from "../../utils";
+import { LocationList, ProductList, ProgressValueArrContainer, setFormDataByComp } from "../../utils";
 import ProgressPageContainer from "../../components/progressPageContainer";
 
 function AddStocks() {
@@ -26,9 +26,7 @@ function AddStocks() {
   const [formData, setFormData] = useState({
     "location":"Location"
   });
-  const progressValArr = [
-    { label: "Stock Information", val: "Stock Information" },
-  ];
+
   const handleChange = (name: string, value: string) => {
     setFormDataByComp(name, value, setFormData);
     console.log("formDats", formData);
@@ -39,7 +37,7 @@ function AddStocks() {
         <></>
       </PageHeaderComponent>
       <ProgressPageContainer
-        progressValArr={progressValArr}
+        progressValArr={ProgressValueArrContainer.stockAddStocks}
         refHolder={refHolder}
         progressName={"Stock Information"}
       >

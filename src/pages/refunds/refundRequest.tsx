@@ -7,16 +7,18 @@ import { allLocationsDatas, refundRequestDatas } from "../../utils";
 function RefundRequest() {
   return (
     <ParentStack>
-        <PageHeaderComponent  pageName={"Refund Requests"}>
-            <></>
-        </PageHeaderComponent>
+      <PageHeaderComponent pageName={"Refund Requests"}>
+        <></>
+      </PageHeaderComponent>
       <TableComponent
-              tableData={refundRequestDatas}
-              setPageNumber={function (value: number): void {
-                  throw new Error("Function not implemented.");
-              } }
-              totalRows={null}
-              page={0} children={false}      />
+        tableData={refundRequestDatas}
+        setPageNumber={function (value: number): void {
+          throw new Error("Function not implemented.");
+        }}
+        totalRows={null}
+        page={0}
+        children={false}
+      />
     </ParentStack>
   );
 }

@@ -31,7 +31,7 @@ export interface IChartApiData {
 interface Props {
   data:{},
   options:{},
-  ApiData:IChartApiData
+  ApiData:any
 }
 export function AreaChart({ data,options, ApiData }:Props) {
   const [chartData, setChartData] = useState<{datasets?:{}[]}>({});

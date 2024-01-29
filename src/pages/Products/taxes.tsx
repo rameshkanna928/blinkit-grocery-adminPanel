@@ -19,16 +19,13 @@ import CustomSelect from "../../components/elements/inputs/CustomSelect";
 import CustomTextInput from "../../components/elements/inputs/CustomtextInput";
 import TableComponent from "../../components/elements/table";
 import ScrollProgresscard from "../../components/scrollProgresscard";
-import { VariationTableDatas, StatusOptions } from "../../utils";
+import { VariationTableDatas, StatusOptions, ProgressValueArrContainer } from "../../utils";
 import { saveIcon } from "../../utils/icons";
 import useRefContainer from "../../Hooks/useRefContainer";
 import ProgressPageContainer from "../../components/progressPageContainer";
 
 function AllTaxes() {
-  const progressValArr = [
-    { label: "All Taxes", val: "All Taxes" },
-    { label: "Add New Taxes", val: "Add New Taxes" },
-  ];
+
   const { refHolder, pushrefFn } = useRefContainer();
   console.log("checkproductUnitsRef", refHolder);
 
@@ -39,7 +36,7 @@ function AllTaxes() {
       </PageHeaderComponent>
 
       <ProgressPageContainer
-        progressValArr={progressValArr}
+        progressValArr={ProgressValueArrContainer.productAllTaxes}
         refHolder={refHolder}
         progressName={"Tax Information"}
       >

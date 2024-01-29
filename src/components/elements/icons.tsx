@@ -6,7 +6,7 @@ interface IProps {
   paddingValue: string;
 }
 function Icon({ children, paddingValue }: IProps) {
-  return <FlexBox style={{ padding: paddingValue }}>{children}</FlexBox>;
+  return <FlexBox style={{ padding: paddingValue,zIndex:0 }}>{children}</FlexBox>;
 }
 
 export default Icon;

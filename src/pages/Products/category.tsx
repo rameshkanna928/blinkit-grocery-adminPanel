@@ -18,6 +18,7 @@ import {
   setFormDataByComp,
 } from "../../utils";
 import CustomTextInput from "../../components/elements/inputs/CustomtextInput";
+import { RoutePaths } from "../../routes";
 
 function Category() {
   const [formData, setFormData] = useState({});
@@ -35,7 +36,7 @@ function Category() {
           text={"Add Category"}
           hovercolor={ColorDarkGreen}
           textColor={ColorWhite}
-          routeLink={""}
+          routeLink={RoutePaths.products.addCategory}
         />
       </PageHeaderComponent>
       <TableComponent
@@ -44,14 +45,12 @@ function Category() {
         totalRows={0}
         page={0}
       >
-        <FlexBetween>
           <CustomTextInput
             changeFunction={(value: string) => handleFormdatas("search", value)}
             iconState={true}
           />
 
           <SearchButton theme={"white"} routeLink={""} onClick={() => {}} />
-        </FlexBetween>
       </TableComponent>
     </ParentStack>
   );

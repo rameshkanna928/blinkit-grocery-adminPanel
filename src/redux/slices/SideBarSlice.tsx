@@ -1,14 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  cureentRouteId: null,
+  curentRouteId: null,
 };
 export const sidebarSlice = createSlice({
   name: "sidebar",
   initialState: initialState,
   reducers: {
     setCurrentRouteId: (state, action) => {
-      state.cureentRouteId = action.payload;
+      state.curentRouteId = action.payload;
     },
   },
 });

@@ -4,9 +4,11 @@ import { SearchWrapper, FlexBox, SpanTag } from "../../../assets/styles";
 import {
   ColorBlack,
   ColorDullWhite,
+  ColorGray,
   ColorLightAsh,
   ColorLightWhite,
 } from "../../../assets/styles/color";
+import { useSelector } from "react-redux";
 
 interface IProps {
   changeFunction: (value: string) => void;
@@ -24,8 +26,10 @@ function CustomTextInput({
 }: IProps) {
   const [getFocus, setGetFocus] = useState(false);
   const [value,setValue] =useState("")
+  const {status} =useSelector(state=>state.mode)
   return (
     <SearchWrapper
+    direction={"row"}
       onFocus={() => setGetFocus(true)}
       onBlur={() => setGetFocus(false)}
       $focusState={getFocus}
@@ -34,14 +38,14 @@ function CustomTextInput({
     >
       {iconState && (
         <FlexBox>
-          <FiSearch />
+          <FiSearch color ={status ==="light"?ColorBlack: ColorGray} />
         </FlexBox>
       )}
       {inputLabel && (
         <div
           style={{
             backgroundColor: ColorLightWhite,
-            width: "100px",
+            minWidth: "100px",
             padding: "10px 5px",
             borderRadius: "6px 0  0 6px ",
           }}
@@ -51,6 +55,7 @@ function CustomTextInput({
       )}
       <input value={value}
         onChange={(e: any) => {
+          e.preventDefault();
           if (type === "number") {
             const result = e.target.value.replace(/\D/g, "");
             changeFunction(result);

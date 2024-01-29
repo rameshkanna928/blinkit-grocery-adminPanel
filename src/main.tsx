@@ -1,7 +1,7 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
+
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
-import "../src/assets/styles/index.css";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./redux/store/index.tsx";
@@ -15,7 +15,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <BrowserRouter>
       <Provider store={store}>
         <ApolloProvider client={client}>
-          <App />
+          <Suspense fallback={<h1>Loading............</h1>}>
+            <App />
+          </Suspense>
         </ApolloProvider>
       </Provider>
     </BrowserRouter>

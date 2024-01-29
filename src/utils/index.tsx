@@ -18,6 +18,7 @@ import {
 } from "./icons";
 import {
   InputLabel,
+  NumberTag,
   SmallSpan,
   SpanTag,
   TableNumberTag,
@@ -32,6 +33,11 @@ import { BsArrow90DegLeft } from "react-icons/bs";
 import ToolDropdown from "../components/toolbar/ToolDropdown";
 import ToogleButton from "../components/elements/buttons/ToogleButton";
 import ViewDetails from "../components/elements/tooltip/viewDetails";
+import { PiMedalLight } from "react-icons/pi";
+import { ColorOrange, ColorOrange2 } from "../assets/styles/color";
+import CustomTextInput from "../components/elements/inputs/CustomtextInput";
+import { RoutePaths } from "../routes";
+
 export const sideBarList = [
   {
     sectionName: null,
@@ -46,9 +52,10 @@ export const sideBarList = [
         id: 2,
         pageName: "Products",
         icon: <RiShoppingBag3Line />,
+        defaultURI: "/admin/products",
         subMenu: [
-          { id: 1, name: "All Products", uri: "/admin/products" },
-          { id: 2, name: "All Categories", uri: "/admin/products/category" },
+          { id: 1, name: "All Products", uri: "/admin/products",childRoutes:[RoutePaths.products.addProduct] },
+          { id: 2, name: "All Categories", uri: "/admin/products/category",childRoutes:[RoutePaths.products.addCategory] },
           { id: 3, name: "All Variations", uri: "/admin/products/variations" },
           { id: 4, name: "All Brands", uri: "/admin/products/brands" },
           { id: 5, name: "All Units", uri: "/admin/products/units" },
@@ -71,6 +78,8 @@ export const sideBarList = [
         id: 5,
         pageName: "Stocks",
         icon: <LuDatabase />,
+        defaultURI: "/admin/stocks",
+
         subMenu: [
           { id: null, name: "Add Stocks", uri: "/admin/stocks/add" },
           { id: null, name: "All Location", uri: "/admin/stocks/locations" },
@@ -80,6 +89,8 @@ export const sideBarList = [
         id: 6,
         pageName: "Refunds",
         icon: <BsArrow90DegLeft />,
+        defaultURI: "/admin/refunds",
+
         subMenu: [
           { id: null, name: "Refund Configurations", uri: "/admin/refunds" },
           { id: null, name: "Refund Requests", uri: "/admin/refunds/requests" },
@@ -98,7 +109,9 @@ export const sideBarList = [
       {
         id: 7,
         pageName: "Rewards & Wallet",
-        icon: Reaward_WalletIcon,
+        icon: <PiMedalLight />,
+        defaultURI: "/admin/rewards",
+
         subMenu: [
           { id: null, name: "Reward Configurations", uri: "/admin/rewards" },
           {
@@ -108,7 +121,7 @@ export const sideBarList = [
           },
           {
             id: null,
-            name: "All Variations",
+            name: "Wallet Configurations",
             uri: "/admin/rewards/wallet-configurations",
           },
         ],
@@ -134,6 +147,8 @@ export const sideBarList = [
         id: 10,
         pageName: "Delivery Men",
         icon: DeliveryMenIcon,
+        defaultURI: "/admin/delivery-man",
+
         subMenu: [
           { id: null, name: "All Deliverymen", uri: "/admin/delivery-man" },
           {
@@ -179,11 +194,7 @@ export function DateFormatter(dataObj) {
   const formattedDate = date.toLocaleDateString("en-GB", options);
 
   // console.log("dateeeeeeeeee", formattedDate);
-  return (
-    <TableSpan>
-      {formattedDate.slice(0, 6) + "," + formattedDate.slice(6)}
-    </TableSpan>
-  );
+  return formattedDate.slice(0, 6) + "," + formattedDate.slice(6);
 }
 export const NumberFormatter = (number: number) => {
   return number?.toLocaleString();
@@ -226,49 +237,157 @@ export const LocationStatusOptions = ["Select Status", "Published", "Hidden"];
 export const EnableRefundOptions = ["Enable", "Disable"];
 //tableColoumns
 export const RecenetOrdersHeaders = [
-  "Order Code",
-  "Customer",
-  "Placed On",
-  "Items",
-  "Payment Status",
-  "Order Status",
-  "Order Type",
-  "Actions",
+  {
+    name: "S/L",
+    selector: (row) => row["S/L"],
+    omit: true,
+  },
+  {
+    name: "Order Code",
+    selector: (row) => row["Order Code"],
+    minWidth: "250px",
+  },
+  {
+    name: "Customer",
+    selector: (row) => row["Customer"],
+    minWidth: "200px",
+
+    hide: "sm",
+  },
+  {
+    name: "Placed On",
+    selector: (row) => row["Placed On"],
+
+    hide: "md",
+  },
+  {
+    name: "Items",
+    selector: (row) => row["Items"],
+
+    hide: "md",
+  },
+  {
+    name: "Payment Status",
+    selector: (row) => row["Payment Status"],
+
+    hide: "lg",
+  },
+  {
+    name: "Order Status",
+    selector: (row) => row["Order Status"],
+
+    hide: "lg",
+  },
+  {
+    name: "Order Type",
+    selector: (row) => row["Order Type"],
+
+    hide: "lg",
+  },
+  {
+    name: "Actions",
+    selector: (row) => row["Actions"],
+    center: true,
+
+    hide: "lg",
+  },
 ];
 export const productsTableHeaders = [
-  "S/L",
-  "Product Name",
-  "ProductType",
-  "Categories",
-  "Price",
-  "Active",
-  "Actions",
-];
-export const categoryTableHeaders = [
-  "S/L",
-  "Category  Name",
-  "Base Category",
-  "Brands",
-  "Priority",
-  "Theme",
-  "Actions",
+  {
+    name: "S/L",
+    selector: (row) => row["S/L"],
+    minWidth: "30px",
+    maxWidth: "60px",
+  },
+  {
+    name: "Product Name",
+    selector: (row) => row["Product Name"],
+    minWidth: "400px",
+  },
+  {
+    name: "ProductType",
+    selector: (row) => row["ProductType"],
+
+    hide: "md",
+  },
+  {
+    name: "Categories",
+    selector: (row) => row["Categories"],
+
+    hide: "md",
+  },
+  {
+    name: "Price",
+    selector: (row) => row["Price"],
+
+    hide: "lg",
+  },
+  {
+    name: "Active",
+    selector: (row) => row["Active"],
+
+    hide: "lg",
+  },
+  {
+    name: "Actions",
+    selector: (row) => row["Actions"],
+    right: true,
+
+    hide: "lg",
+  },
 ];
 
 /////////////////
 export const CategoryTablesDatas = {
   columnHeader: [
-    "S/L",
-    "Category  Name",
-    "Base Category",
-    "Brands",
-    "Priority",
-    "Theme",
-    "Actions",
+    {
+      name: "S/L",
+      selector: (row) => row["S/L"],
+      minWidth: "30px",
+      maxWidth: "60px",
+    },
+    {
+      name: "Category  Name",
+      selector: (row) => row["Category  Name"],
+      minWidth: "200px",
+    },
+    {
+      name: "Base Category",
+      selector: (row) => row["Base Category"],
+
+      hide: "sm",
+      minWidth: "150px",
+    },
+    {
+      name: "Brands",
+      selector: (row) => row["Brands"],
+
+      hide: "md",
+    },
+    {
+      name: "Priority",
+      selector: (row) => row["Priority"],
+
+      hide: "md",
+    },
+    {
+      name: "Theme",
+      selector: (row) => row["Theme"],
+
+      hide: "md",
+    },
+    {
+      name: "Actions",
+      selector: (row) => row["Actions"],
+      right: true,
+
+      hide: "lg",
+    },
   ],
   rowData: [
     {
-      "1": 1,
-      "2": (
+      "S/L": 1,
+      "Category  Name": (
         <TableItems
           data={{
             image:
@@ -281,11 +400,11 @@ export const CategoryTablesDatas = {
         />
       ),
 
-      "3": <TableStatusCard status={"N/A"} />,
-      "4": <TableStatusCard status={"N/A"} />,
-      "5": <TableSpan>5</TableSpan>,
-      "6": <TableSpan>{`["Grocery"]`}</TableSpan>,
-      "7": (
+      "Base Category": <TableStatusCard status={"N/A"} />,
+      Brands: <TableStatusCard status={"N/A"} />,
+      Priority: <TableSpan>5</TableSpan>,
+      Theme: <TableSpan>{`["Grocery"]`}</TableSpan>,
+      Actions: (
         <ToolDropdown
           arr={[
             { text: "Edit", icon: editIcon },
@@ -296,13 +415,13 @@ export const CategoryTablesDatas = {
       ),
     },
     {
-      "1": 2,
-      "2": (
+      "S/L": 2,
+      "Category  Name": (
         <TableItems
           data={{
             image:
-              "https://grostore.themetags.com/public/uploads/media/aGeVazxlUQXFJR0WMObSRo14aOCKOE4jONbOtTfv.png",
-            name: "Milk",
+              "https://grostore.themetags.com/public/uploads/media/B1w5t5CWLo5OtLqvM332UQfsWzIarG9qiyEVUNb0.png",
+            name: "Fresh Organic",
           }}
           space={undefined}
           imgW={undefined}
@@ -310,69 +429,11 @@ export const CategoryTablesDatas = {
         />
       ),
 
-      "3": <TableStatusCard status={"N/A"} />,
-      "4": <TableStatusCard status={"N/A"} />,
-      "5": <TableSpan>5</TableSpan>,
-      "6": <TableSpan>{`["Grocery"]`}</TableSpan>,
-      "7": (
-        <ToolDropdown
-          arr={[
-            { text: "Edit", icon: editIcon },
-            { text: "Delete", icon: deleteIcon },
-          ]}
-          width={"200px"}
-        />
-      ),
-    },
-    {
-      "1": 3,
-      "2": (
-        <TableItems
-          data={{
-            image:
-              "https://grostore.themetags.com/public/uploads/media/QZA5S8YHIm08QrrgdN74SfZrZBbhVloTvLaAyAue.png",
-            name: "Cleaning",
-          }}
-          space={undefined}
-          imgW={undefined}
-          imgH={undefined}
-        />
-      ),
-
-      "3": <TableStatusCard status={"N/A"} />,
-      "4": <TableStatusCard status={"N/A"} />,
-      "5": <TableSpan>5</TableSpan>,
-      "6": <TableSpan>{`["Grocery"]`}</TableSpan>,
-      "7": (
-        <ToolDropdown
-          arr={[
-            { text: "Edit", icon: editIcon },
-            { text: "Delete", icon: deleteIcon },
-          ]}
-          width={"200px"}
-        />
-      ),
-    },
-    {
-      "1": 4,
-      "2": (
-        <TableItems
-          data={{
-            image:
-              "https://grostore.themetags.com/public/uploads/media/WReJ6ANlzBRlgvM2zj8UfoDlmf2SPlCx9x3rRgzd.png",
-            name: "breakfast",
-          }}
-          space={undefined}
-          imgW={undefined}
-          imgH={undefined}
-        />
-      ),
-
-      "3": <TableStatusCard status={"N/A"} />,
-      "4": <TableStatusCard status={"N/A"} />,
-      "5": <TableSpan>5</TableSpan>,
-      "6": <TableSpan>{`["Grocery"]`}</TableSpan>,
-      "7": (
+      "Base Category": <TableStatusCard status={"N/A"} />,
+      Brands: <TableStatusCard status={"N/A"} />,
+      Priority: <TableSpan>5</TableSpan>,
+      Theme: <TableSpan>{`["Grocery"]`}</TableSpan>,
+      Actions: (
         <ToolDropdown
           arr={[
             { text: "Edit", icon: editIcon },
@@ -385,11 +446,32 @@ export const CategoryTablesDatas = {
   ],
 };
 export const VariationTableDatas = {
-  columnHeader: ["S/L", "Name", "Active", "Action"],
+  columnHeader: [
+    {
+      name: "S/L",
+      selector: (row) => row["S/L"],
+      minWidth: "30px",
+      maxWidth: "60px",
+    },
+    {
+      name: "Name",
+      selector: (row) => row["Name"],
+    },
+    {
+      name: "Active",
+      selector: (row) => row["Active"],
+    },
+    {
+      name: "Actions",
+      selector: (row) => row["Actions"],
+      right: true,
+    },
+  ],
+
   rowData: [
     {
-      "1": 1,
-      "2": (
+      "S/L": <SpanTag> 1 </SpanTag>,
+      Name: (
         <TableItems
           data={{ name: "Size" }}
           space={undefined}
@@ -397,8 +479,8 @@ export const VariationTableDatas = {
           imgH={undefined}
         />
       ),
-      "3": <ToogleButton value={false} />,
-      "4": (
+      Active: <ToogleButton value={false} />,
+      Actions: (
         <ToolDropdown
           arr={[
             { text: "Edit", icon: editIcon },
@@ -409,8 +491,8 @@ export const VariationTableDatas = {
       ),
     },
     {
-      "1": 2,
-      "2": (
+      "S/L": <SpanTag> 2 </SpanTag>,
+      Name: (
         <TableItems
           data={{ name: "Color" }}
           space={undefined}
@@ -418,8 +500,8 @@ export const VariationTableDatas = {
           imgH={undefined}
         />
       ),
-      "3": <ToogleButton value={true} />,
-      "4": (
+      Active: <ToogleButton value={false} />,
+      Actions: (
         <ToolDropdown
           arr={[
             { text: "Edit", icon: editIcon },
@@ -430,17 +512,17 @@ export const VariationTableDatas = {
       ),
     },
     {
-      "1": 3,
-      "2": (
+      "S/L": <SpanTag> 3 </SpanTag>,
+      Name: (
         <TableItems
-          data={{ name: "Volume" }}
+          data={{ name: "Size" }}
           space={undefined}
           imgW={undefined}
           imgH={undefined}
         />
       ),
-      "3": <ToogleButton value={false} />,
-      "4": (
+      Active: <ToogleButton value={false} />,
+      Actions: (
         <ToolDropdown
           arr={[
             { text: "Edit", icon: editIcon },
@@ -451,17 +533,17 @@ export const VariationTableDatas = {
       ),
     },
     {
-      "1": 4,
-      "2": (
+      "S/L": <SpanTag> 4 </SpanTag>,
+      Name: (
         <TableItems
-          data={{ name: "Weight" }}
+          data={{ name: "Color" }}
           space={undefined}
           imgW={undefined}
           imgH={undefined}
         />
       ),
-      "3": <ToogleButton value={true} />,
-      "4": (
+      Active: <ToogleButton value={true} />,
+      Actions: (
         <ToolDropdown
           arr={[
             { text: "Edit", icon: editIcon },
@@ -477,26 +559,78 @@ export const VariationTableDatas = {
 //ordersTables\
 export const OrdersTableDatas = {
   columnHeader: [
-    "S/L",
-    "Order Code",
-    "Customer",
-    "Placed On",
-    "Items",
-    "Payment",
-    "Status",
-    "Type",
-    "Location",
-    "Action",
+    {
+      name: "S/L",
+      selector: (row) => row["S/L"],
+      minWidth: "30px",
+      maxWidth: "60px",
+    },
+    {
+      name: "Order Code",
+      selector: (row) => row["Order Code"],
+
+      hide: "sm",
+    },
+    {
+      name: "Customer",
+      selector: (row) => row["Customer"],
+      minWidth: "200px",
+    },
+    {
+      name: "Placed On",
+      selector: (row) => row["Placed On"],
+
+      hide: "sm",
+    },
+    {
+      name: "Items",
+      selector: (row) => row["Items"],
+
+      hide: "sm",
+    },
+    {
+      name: "Payment",
+      selector: (row) => row["Payment"],
+
+      hide: "md",
+    },
+    {
+      name: "Status",
+      selector: (row) => row["Status"],
+      minWidth: "150px",
+
+      hide: "md",
+    },
+    {
+      name: "Type",
+      selector: (row) => row["Type"],
+
+      hide: "lg",
+    },
+    {
+      name: "Location",
+      selector: (row) => row["Location"],
+      minWidth: "150px",
+
+      hide: "lg",
+    },
+    {
+      name: "Actions",
+      selector: (row) => row["Actions"],
+      right: true,
+
+      hide: "lg",
+    },
   ],
   rowData: [
     {
-      "1": 1,
-      "2": (
+      "S/L": <SpanTag>1</SpanTag>,
+      "Order Code": (
         <div style={{ width: "100px" }}>
           <SmallSpan>#G-Store:133</SmallSpan>
         </div>
       ),
-      "3": (
+      Customer: (
         <TableItems
           data={{
             image:
@@ -509,225 +643,81 @@ export const OrdersTableDatas = {
           imgH={undefined}
         />
       ),
-      "4": (
-        <div style={{ width: "100px" }}>{DateFormatter("14 Jan, 2024")}</div>
-      ),
-      "5": <TableNumberTag>10</TableNumberTag>,
-      "6": (
-        <div style={{ width: "30px" }}>
-          <TableStatusCard status={"Unpaid"} />
-        </div>
-      ),
-      "7": (
-        <div style={{ width: "90px" }}>
-          <TableStatusCard status={"Order Placed"} />
-        </div>
-      ),
-      "8": (
-        <div style={{ width: "50px" }}>
-          <TableStatusCard status={"Regular"} />
-        </div>
-      ),
-      "9": (
-        <div style={{ width: "105px" }}>
-          <TableStatusCard status={"Default Location"} />
-        </div>
-      ),
-      "10": <ViewDetails />,
+      "Placed On": <SpanTag>{DateFormatter("14 Jan, 2024")}</SpanTag>,
+      Items: <TableNumberTag>10</TableNumberTag>,
+      Payment: <TableStatusCard status={"Unpaid"} />,
+      Status: <TableStatusCard status={"Order Placed"} />,
+      Type: <TableStatusCard status={"Regular"} />,
+      Location: <TableStatusCard status={"Default Location"} />,
+      Actions: <ViewDetails />,
     },
     {
-      "1": 2,
-      "2": (
+      "S/L": <SpanTag>2</SpanTag>,
+      "Order Code": (
         <div style={{ width: "100px" }}>
-          <SmallSpan>#G-Store:133</SmallSpan>
+          <SmallSpan>#G-Store:122</SmallSpan>
         </div>
       ),
-      "3": (
+      Customer: (
         <TableItems
           data={{
             image:
               "https://grostore.themetags.com/public/uploads/media/INDtffUJXB3VqDxlyFgAS6h199TZNniBQNPW0mIc.jpg",
             name: "Mark Tran - CEO",
-            span: "5555555555",
+            span: "11111111111",
           }}
           space={undefined}
           imgW={undefined}
           imgH={undefined}
         />
       ),
-      "4": (
-        <div style={{ width: "100px" }}>{DateFormatter("14 Jan, 2024")}</div>
-      ),
-      "5": <TableNumberTag>10</TableNumberTag>,
-      "6": (
-        <div style={{ width: "30px" }}>
-          <TableStatusCard status={"Unpaid"} />
-        </div>
-      ),
-      "7": (
-        <div style={{ width: "90px" }}>
-          <TableStatusCard status={"Order Placed"} />
-        </div>
-      ),
-      "8": (
-        <div style={{ width: "50px" }}>
-          <TableStatusCard status={"Scheduled"} />
-        </div>
-      ),
-      "9": (
-        <div style={{ width: "105px" }}>
-          <TableStatusCard status={"Default Location"} />
-        </div>
-      ),
-      "10": <ViewDetails />,
-    },
-    {
-      "1": 3,
-      "2": (
-        <div style={{ width: "100px" }}>
-          <SmallSpan>#G-Store:133</SmallSpan>
-        </div>
-      ),
-      "3": (
-        <TableItems
-          data={{
-            image:
-              "https://grostore.themetags.com/public/uploads/media/INDtffUJXB3VqDxlyFgAS6h199TZNniBQNPW0mIc.jpg",
-            name: "Mark Tran - CEO",
-            span: "5555555555",
-          }}
-          space={undefined}
-          imgW={undefined}
-          imgH={undefined}
-        />
-      ),
-      "4": (
-        <div style={{ width: "100px" }}>{DateFormatter("14 Jan, 2024")}</div>
-      ),
-      "5": <TableNumberTag>10</TableNumberTag>,
-      "6": (
-        <div style={{ width: "30px" }}>
-          <TableStatusCard status={"Unpaid"} />
-        </div>
-      ),
-      "7": (
-        <div style={{ width: "90px" }}>
-          <TableStatusCard status={"Delivered"} />
-        </div>
-      ),
-      "8": (
-        <div style={{ width: "50px" }}>
-          <TableStatusCard status={"Regular"} />
-        </div>
-      ),
-      "9": (
-        <div style={{ width: "105px" }}>
-          <TableStatusCard status={"Default Location"} />
-        </div>
-      ),
-      "10": <ViewDetails />,
-    },
-    {
-      "1": 4,
-      "2": (
-        <div style={{ width: "100px" }}>
-          <SmallSpan>#G-Store:133</SmallSpan>
-        </div>
-      ),
-      "3": (
-        <TableItems
-          data={{
-            image:
-              "https://grostore.themetags.com/public/uploads/media/INDtffUJXB3VqDxlyFgAS6h199TZNniBQNPW0mIc.jpg",
-            name: "Mark Tran - CEO",
-            span: "5555555555",
-          }}
-          space={undefined}
-          imgW={undefined}
-          imgH={undefined}
-        />
-      ),
-      "4": (
-        <div style={{ width: "100px" }}>{DateFormatter("14 Jan, 2024")}</div>
-      ),
-      "5": <TableNumberTag>10</TableNumberTag>,
-      "6": (
-        <div style={{ width: "30px" }}>
-          <TableStatusCard status={"Paid"} />
-        </div>
-      ),
-      "7": (
-        <div style={{ width: "90px" }}>
-          <TableStatusCard status={"Order Placed"} />
-        </div>
-      ),
-      "8": (
-        <div style={{ width: "50px" }}>
-          <TableStatusCard status={"Regular"} />
-        </div>
-      ),
-      "9": (
-        <div style={{ width: "105px" }}>
-          <TableStatusCard status={"Default Location"} />
-        </div>
-      ),
-      "10": <ViewDetails />,
-    },
-    {
-      "1": 5,
-      "2": (
-        <div style={{ width: "100px" }}>
-          <SmallSpan>#G-Store:133</SmallSpan>
-        </div>
-      ),
-      "3": (
-        <TableItems
-          data={{
-            image:
-              "https://grostore.themetags.com/public/uploads/media/INDtffUJXB3VqDxlyFgAS6h199TZNniBQNPW0mIc.jpg",
-            name: "Mark Tran - CEO",
-            span: "5555555555",
-          }}
-          space={undefined}
-          imgW={undefined}
-          imgH={undefined}
-        />
-      ),
-      "4": (
-        <div style={{ width: "100px" }}>{DateFormatter("14 Jan, 2024")}</div>
-      ),
-      "5": <TableNumberTag>10</TableNumberTag>,
-      "6": (
-        <div style={{ width: "30px" }}>
-          <TableStatusCard status={"Unpaid"} />
-        </div>
-      ),
-      "7": (
-        <div style={{ width: "90px" }}>
-          <TableStatusCard status={"Order Placed"} />
-        </div>
-      ),
-      "8": (
-        <div style={{ width: "50px" }}>
-          <TableStatusCard status={"Regular"} />
-        </div>
-      ),
-      "9": (
-        <div style={{ width: "105px" }}>
-          <TableStatusCard status={"Default Location"} />
-        </div>
-      ),
-      "10": <ViewDetails />,
+      "Placed On": <SpanTag>{DateFormatter("14 Jan, 2024")}</SpanTag>,
+      Items: <TableNumberTag>10</TableNumberTag>,
+      Payment: <TableStatusCard status={"Unpaid"} />,
+      Status: <TableStatusCard status={"Order Placed"} />,
+      Type: <TableStatusCard status={"Regular"} />,
+      Location: <TableStatusCard status={"Default Location"} />,
+      Actions: <ViewDetails />,
     },
   ],
 };
 
 export const allLocationsDatas = {
-  columnHeader: ["S/L", "Name", "Address", "Default", "Published", "Action"],
+  columnHeader: [
+    {
+      name: "S/L",
+      selector: (row) => row["S/L"],
+      minWidth: "30px",
+      maxWidth: "60px",
+    },
+    {
+      name: "Name",
+      selector: (row) => row["Name"],
+    },
+    {
+      name: "Address",
+      selector: (row) => row["Address"],
+    },
+    {
+      name: "Default",
+      selector: (row) => row["Default"],
+    },
+    {
+      name: "Published",
+      selector: (row) => row["Published"],
+    },
+    {
+      name: "Actions",
+      selector: (row) => row["Actions"],
+      right: true,
+
+      hide: "lg",
+    },
+  ],
   rowData: [
     {
-      "1": <SmallSpan>1</SmallSpan>,
-      "2": (
+      "S/L": <SpanTag>1</SpanTag>,
+      Name: (
         <TableItems
           data={{
             name: "Location Two",
@@ -739,10 +729,10 @@ export const allLocationsDatas = {
           imgH={20}
         />
       ),
-      "3": <SpanTag> Location two address</SpanTag>,
-      "4": <ToogleButton value={false} />,
-      "5": <ToogleButton value={true} />,
-      "6": (
+      Address: <SpanTag> Location two address</SpanTag>,
+      Default: <ToogleButton value={false} />,
+      Published: <ToogleButton value={true} />,
+      Actions: (
         <ToolDropdown
           arr={[{ text: "Edit", icon: editIcon }]}
           width={"200px"}
@@ -750,11 +740,11 @@ export const allLocationsDatas = {
       ),
     },
     {
-      "1": <SmallSpan>2</SmallSpan>,
-      "2": (
+      "S/L": <SpanTag>2</SpanTag>,
+      Name: (
         <TableItems
           data={{
-            name: "Default Location",
+            name: "Location Two",
             image:
               "https://grostore.themetags.com/public/backend/assets/img/placeholder-thumb.png?v=v3.0.0",
           }}
@@ -763,10 +753,10 @@ export const allLocationsDatas = {
           imgH={20}
         />
       ),
-      "3": <SpanTag>Default Location address</SpanTag>,
-      "4": <ToogleButton value={false} />,
-      "5": <ToogleButton value={true} />,
-      "6": (
+      Address: <SpanTag> Location two address</SpanTag>,
+      Default: <ToogleButton value={false} />,
+      Published: <ToogleButton value={true} />,
+      Actions: (
         <ToolDropdown
           arr={[{ text: "Edit", icon: editIcon }]}
           width={"200px"}
@@ -778,18 +768,53 @@ export const allLocationsDatas = {
 //refunds
 export const refundRequestDatas = {
   columnHeader: [
-    "S/L",
-    "User",
-    "Order Code",
-    "Product",
-    "Amount",
-    "Payment",
-    "Action",
+    {
+      name: "S/L",
+      selector: (row) => row["S/L"],
+      minWidth: "30px",
+      maxWidth: "60px",
+    },
+    {
+      name: "User",
+      selector: (row) => row["User"],
+      minWidth: "200px",
+    },
+    {
+      name: "Order Code",
+      selector: (row) => row["Order Code"],
+
+      hide: "sm",
+    },
+    {
+      name: "Product",
+      selector: (row) => row["Product"],
+
+      hide: "md",
+    },
+    {
+      name: "Amount",
+      selector: (row) => row["Amount"],
+
+      hide: "md",
+    },
+    {
+      name: "Payment",
+      selector: (row) => row["Payment"],
+
+      hide: "md",
+    },
+    {
+      name: "Actions",
+      selector: (row) => row["Actions"],
+      right: true,
+
+      hide: "lg",
+    },
   ],
   rowData: [
     {
-      "1": <SmallSpan>1</SmallSpan>,
-      "2": (
+      "S/L": <SpanTag>1</SpanTag>,
+      User: (
         <TableItems
           data={{
             image:
@@ -802,12 +827,12 @@ export const refundRequestDatas = {
           imgH={undefined}
         />
       ),
-      "3": (
+      "Order Code": (
         <div style={{ width: "100px" }}>
           <InputLabel>#G-Store:133</InputLabel>
         </div>
       ),
-      "4": (
+      Product: (
         <TableItems
           data={{
             image:
@@ -819,9 +844,9 @@ export const refundRequestDatas = {
           imgH={undefined}
         />
       ),
-      "5": <InputLabel>₹{NumberFormatter(1000)}</InputLabel>,
-      "6": <TableStatusCard status={"Unpaid"} />,
-      "7": (
+      Amount: <InputLabel>₹{NumberFormatter(1000)}</InputLabel>,
+      Payment: <TableStatusCard status={"Unpaid"} />,
+      Actions: (
         <ToolDropdown
           arr={[
             { text: "Approve", icon: editIcon },
@@ -832,8 +857,8 @@ export const refundRequestDatas = {
       ),
     },
     {
-      "1": <SmallSpan>1</SmallSpan>,
-      "2": (
+      "S/L": <SpanTag>2</SpanTag>,
+      User: (
         <TableItems
           data={{
             image:
@@ -846,12 +871,12 @@ export const refundRequestDatas = {
           imgH={undefined}
         />
       ),
-      "3": (
+      "Order Code": (
         <div style={{ width: "100px" }}>
           <InputLabel>#G-Store:133</InputLabel>
         </div>
       ),
-      "4": (
+      Product: (
         <TableItems
           data={{
             image:
@@ -863,9 +888,9 @@ export const refundRequestDatas = {
           imgH={undefined}
         />
       ),
-      "5": <InputLabel>₹{NumberFormatter(1000)}</InputLabel>,
-      "6": <TableStatusCard status={"Unpaid"} />,
-      "7": (
+      Amount: <InputLabel>₹{NumberFormatter(1000)}</InputLabel>,
+      Payment: <TableStatusCard status={"Unpaid"} />,
+      Actions: (
         <ToolDropdown
           arr={[
             { text: "Approve", icon: editIcon },
@@ -876,8 +901,8 @@ export const refundRequestDatas = {
       ),
     },
     {
-      "1": <SmallSpan>1</SmallSpan>,
-      "2": (
+      "S/L": <SpanTag>3</SpanTag>,
+      User: (
         <TableItems
           data={{
             image:
@@ -890,12 +915,12 @@ export const refundRequestDatas = {
           imgH={undefined}
         />
       ),
-      "3": (
+      "Order Code": (
         <div style={{ width: "100px" }}>
           <InputLabel>#G-Store:133</InputLabel>
         </div>
       ),
-      "4": (
+      Product: (
         <TableItems
           data={{
             image:
@@ -907,9 +932,9 @@ export const refundRequestDatas = {
           imgH={undefined}
         />
       ),
-      "5": <InputLabel>₹{NumberFormatter(1000)}</InputLabel>,
-      "6": <TableStatusCard status={"Unpaid"} />,
-      "7": (
+      Amount: <InputLabel>₹{NumberFormatter(1000)}</InputLabel>,
+      Payment: <TableStatusCard status={"Unpaid"} />,
+      Actions: (
         <ToolDropdown
           arr={[
             { text: "Approve", icon: editIcon },
@@ -923,18 +948,47 @@ export const refundRequestDatas = {
 };
 export const approvedRefundDatas = {
   columnHeader: [
-    "S/L",
-    "User",
-    "Order Code",
-    "Product",
-    "Amount",
-    "Payment",
-    "",
+    {
+      name: "S/L",
+      selector: (row) => row["S/L"],
+      minWidth: "30px",
+      maxWidth: "60px",
+    },
+    {
+      name: "User",
+      selector: (row) => row["User"],
+      minWidth: "200px",
+    },
+    {
+      name: "Order Code",
+      selector: (row) => row["Order Code"],
+    },
+    {
+      name: "Product",
+      selector: (row) => row["Product"],
+      minWidth: "170px",
+
+      hide: "sm",
+    },
+    {
+      name: "Amount",
+      selector: (row) => row["Amount"],
+      right: true,
+
+      hide: "md",
+    },
+    {
+      name: "Payment",
+      selector: (row) => row["Payment"],
+      center: true,
+
+      hide: "lg",
+    },
   ],
   rowData: [
     {
-      "1": <SmallSpan>1</SmallSpan>,
-      "2": (
+      "S/L": <SpanTag>1</SpanTag>,
+      User: (
         <TableItems
           data={{
             image:
@@ -947,12 +1001,12 @@ export const approvedRefundDatas = {
           imgH={undefined}
         />
       ),
-      "3": (
+      "Order Code": (
         <div style={{ width: "100px" }}>
           <InputLabel>#G-Store:133</InputLabel>
         </div>
       ),
-      "4": (
+      Product: (
         <TableItems
           data={{
             image:
@@ -964,13 +1018,12 @@ export const approvedRefundDatas = {
           imgH={undefined}
         />
       ),
-      "5": <InputLabel>₹{NumberFormatter(1000)}</InputLabel>,
-      "6": <TableStatusCard status={"Unpaid"} />,
-      "7": null,
+      Amount: <InputLabel>₹{NumberFormatter(1000)}</InputLabel>,
+      Payment: <TableStatusCard status={"Unpaid"} />,
     },
     {
-      "1": <SmallSpan>1</SmallSpan>,
-      "2": (
+      "S/L": <SpanTag>2</SpanTag>,
+      User: (
         <TableItems
           data={{
             image:
@@ -983,12 +1036,12 @@ export const approvedRefundDatas = {
           imgH={undefined}
         />
       ),
-      "3": (
+      "Order Code": (
         <div style={{ width: "100px" }}>
           <InputLabel>#G-Store:133</InputLabel>
         </div>
       ),
-      "4": (
+      Product: (
         <TableItems
           data={{
             image:
@@ -1000,13 +1053,12 @@ export const approvedRefundDatas = {
           imgH={undefined}
         />
       ),
-      "5": <InputLabel>₹{NumberFormatter(1000)}</InputLabel>,
-      "6": <TableStatusCard status={"Unpaid"} />,
-      "7": null,
+      Amount: <InputLabel>₹{NumberFormatter(1000)}</InputLabel>,
+      Payment: <TableStatusCard status={"Unpaid"} />,
     },
     {
-      "1": <SmallSpan>1</SmallSpan>,
-      "2": (
+      "S/L": <SpanTag>3</SpanTag>,
+      User: (
         <TableItems
           data={{
             image:
@@ -1019,12 +1071,12 @@ export const approvedRefundDatas = {
           imgH={undefined}
         />
       ),
-      "3": (
+      "Order Code": (
         <div style={{ width: "100px" }}>
           <InputLabel>#G-Store:133</InputLabel>
         </div>
       ),
-      "4": (
+      Product: (
         <TableItems
           data={{
             image:
@@ -1036,9 +1088,158 @@ export const approvedRefundDatas = {
           imgH={undefined}
         />
       ),
-      "5": <InputLabel>₹{NumberFormatter(1000)}</InputLabel>,
-      "6": <TableStatusCard status={"Unpaid"} />,
-      "7": null,
+      Amount: <InputLabel>₹{NumberFormatter(1000)}</InputLabel>,
+      Payment: <TableStatusCard status={"Unpaid"} />,
     },
   ],
 };
+export const rejectedRefundDatas = {
+  columnHeader: [
+    {
+      name: "S/L",
+      selector: (row) => row["S/L"],
+      minWidth: "30px",
+      maxWidth: "60px",
+    },
+    {
+      name: "User",
+      selector: (row) => row["User"],
+      minWidth: "200px",
+    },
+    {
+      name: "Order Code",
+      selector: (row) => row["Order Code"],
+      sortable: true,
+      hide: "sm",
+    },
+    {
+      name: "Product",
+      selector: (row) => row["Product"],
+      sortable: true,
+      hide: "md",
+    },
+    {
+      name: "Amount",
+      selector: (row) => row["Amount"],
+      sortable: true,
+      hide: "md",
+    },
+    {
+      name: "Payment",
+      selector: (row) => row["Payment"],
+      sortable: true,
+      hide: "md",
+    },
+    {
+      name: "Actions",
+      selector: (row) => row["Actions"],
+      right: true,
+      sortable: true,
+      hide: "lg",
+    },
+  ],
+  rowData: [],
+};
+
+export const setRewardPointsTableDatas = {
+  columnHeader: [
+    {
+      name: "S/L",
+      selector: (row) => row["S/L"],
+      minWidth: "30px",
+      maxWidth: "60px",
+    },
+    {
+      name: "Product Name",
+      selector: (row) => row["Product Name"],
+      minWidth: "200px",
+    },
+    {
+      name: "Base price",
+      selector: (row) => row["Base price"],
+
+      hide: "xs",
+      maxWidth: "150px",
+    },
+
+    {
+      name: "Points",
+      selector: (row) => row["Points"],
+      right: true,
+
+      hide: "lg",
+      maxWidth: "100%",
+      display: "flex",
+    },
+  ],
+  rowData: [
+    {
+      "S/L": <SpanTag>1</SpanTag>,
+      "Product Name": (
+        <TableItems
+          data={{
+            image:
+              "https://grostore.themetags.com/public/uploads/media/3udU8bhCm9Nw5hI0kmzMAVtvDTTMK4zgxkes4gGt.png",
+            name: "Product Name",
+            span: null,
+          }}
+          space={true}
+          imgW={undefined}
+          imgH={undefined}
+        />
+      ),
+
+      "Base price": (
+        <InputLabel style={{ color: ColorOrange2, fontWeight: 600 }}>
+          ₹ {NumberFormatter(1000)}
+        </InputLabel>
+      ),
+      Points: (
+        <CustomTextInput
+          type="number"
+          changeFunction={() => {}}
+          iconState={false}
+          holderText=" "
+        />
+      ),
+    },
+  ],
+};
+
+export const multiselectOptions = [
+  { value: "chocolate", label: "Chocolate" },
+  { value: "strawberry", label: "Strawberry" },
+  { value: "vanilla", label: "Vanilla" },
+];
+
+
+export const ProgressValueArrContainer = {
+  productAllVariations:["All Variations","Add New Variation"],
+  productAllBrands:["All Brands","Add New Brand","Add Brand SEO"],
+  productAllUnits:["All Units","Add New Units"],
+  productAllTaxes:["All Taxes","Add New Tax"],
+  productAddProducts:[
+    "Basic Information", 
+    "Product Images", 
+    "Category",
+    "Product Tags",
+    "Product Brand & Unit",
+     "Price,SKU,Stock & Variations",
+      
+    "Product Discount", 
+    "Minimum Purchase", 
+    "Product Taxes",
+    "Self Target and Status", 
+    "SEO Meta Options", 
+  ],
+  productAddCategory:["Basic Information","Category Image","SEO Meta Options"],
+  stockAddStocks:["Stock Information"],
+  refundConfigurations:["Refund Information"],
+  rewardConfigurations:["Reward Information"],
+  rewardPoints:["Each Product Wise","Price Range Wise","For All Products"],
+  walletConfigurations:["Refund Information"],
+
+
+
+
+}

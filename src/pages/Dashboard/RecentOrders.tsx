@@ -44,32 +44,29 @@ function RecentOrders() {
         ...prev,
         rowData: data?.data?.map((data, i) => {
           return {
-            "1": <TableSpan>{data?.orderId}</TableSpan>,
-
-            "2": (
-              <>
-                <TableItems
-                  data={{
-                    image: data?.user?.profileImage,
-                    name: data?.user?.firstName + " " + data?.user?.lastName,
-                    span: data?.user.phoneNo,
-                  }}
-                  space={false}
-                  imgW={undefined}
-                  imgH={undefined}
-                />
-              </>
+            "S/L": <SpanTag>{(pageNumber - 1) * 10 + i + 1}</SpanTag>,
+            "Order Code": <SpanTag> {data?.orderId}</SpanTag>,
+            Customer: (
+              <TableItems
+                data={{
+                  image: data?.user?.profileImage,
+                  name: data?.user?.firstName + " " + data?.user?.lastName,
+                  span: data?.user.phoneNo,
+                }}
+                space={false}
+                imgW={undefined}
+                imgH={undefined}
+              />
             ),
-            "3": DateFormatter(data?.orderTime),
-            "4": (
+
+            "Placed On": <SpanTag>{DateFormatter(data?.orderTime)}</SpanTag>,
+            Items: (
               <TableNumberTag>{data?.addToCart?.[0]?.quantity}</TableNumberTag>
             ),
-            "5": <TableStatusCard status={data?.paymentStatus} />,
-            "6": <TableStatusCard status={data?.orderStatus} />,
-            "7": <TableStatusCard status={data?.orderType} />,
-            "8": (
-                <ViewDetails />
-            ),
+            "Payment Status": <TableStatusCard status={data?.paymentStatus} />,
+            "Order Status": <TableStatusCard status={data?.orderStatus} />,
+            "Order Type": <TableStatusCard status={data?.orderType} />,
+            Actions: <ViewDetails />,
           };
         }),
       }));
@@ -80,30 +77,30 @@ function RecentOrders() {
   return (
     <>
       {" "}
-      {ApiDataOrders?.rowData && ApiDataOrders?.rowData?.length > 0 && (
-        <TableComponent
-          tableData={ApiDataOrders}
-          setPageNumber={() => {}}
-          totalRows={10}
-          page={pageNumber}
-        >
-          <FlexBetween>
-            <div>
-              <Heading2 style={{ margin: "4px 0" }}>Recent Orders</Heading2>
-              <SpanTag>Your 10 Most Recent Orders</SpanTag>
-            </div>
-            <ReuseButton
-              color={ColorGreen}
-              hovercolor={ColorDarkGreen}
-              iconPadding={"0 5px"}
-              icon={<MdOutlineRemoveRedEye size={20} />}
-              text={"View All"}
-              textColor={ColorWhite}
-              routeLink={""}
-            />
-          </FlexBetween>
-        </TableComponent>
-      )}
+      {ApiDataOrders?.rowData.length>0 ?   <TableComponent
+        tableData={ApiDataOrders}
+        setPageNumber={() => {}}
+        totalRows={10}
+        page={pageNumber}
+      >
+        <FlexBetween direction={"row"}>
+          <div>
+            <Heading2 style={{ margin: "4px 0" }}>Recent Orders</Heading2>
+            <SpanTag>Your {ApiDataOrders?.rowData?.length} Most Recent Orders</SpanTag>
+          </div>
+          <ReuseButton
+            color={ColorGreen}
+            hovercolor={ColorDarkGreen}
+            iconPadding={"0 5px"}
+            icon={<MdOutlineRemoveRedEye size={20} />}
+            text={"View All"}
+            textColor={ColorWhite}
+            routeLink={""}
+          />
+        </FlexBetween>
+      </TableComponent> : 
+      <SpanTag>server takes break!</SpanTag>}
+   
     </>
   );
 }

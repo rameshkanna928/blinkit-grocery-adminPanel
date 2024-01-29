@@ -10,6 +10,7 @@ interface IProps {
   text: string;
   textColor: string;
   routeLink: string;
+  hoverTextColor?:string
 }
 function ReuseButton({
   color,
@@ -19,9 +20,10 @@ function ReuseButton({
   text,
   textColor,
   routeLink,
+  hoverTextColor
 }: IProps) {
   return (
-    <CustomButton $background={color} $hoverbackground={hovercolor}>
+    <CustomButton $background={color} $hoverbackground={hovercolor} $hoverTextColor={hoverTextColor}>
       <CustomLink $textColor={textColor} to={`${routeLink}`}>
         <Icon paddingValue={iconPadding}>{icon}</Icon>
         {text}

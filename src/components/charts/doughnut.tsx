@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Chart, Doughnut } from "react-chartjs-2";
-import { log10 } from "chart.js/helpers";
+import {  Doughnut } from "react-chartjs-2";
 import { CategoryChartData, categoryChartOptions } from "./data";
 import  "../../assets/styles/index.css"
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 
-export function DoughnutChart({ApiData}) {
+export function DoughnutChart({ApiData}:any) {
   const [data,setData] =useState(CategoryChartData)
   useEffect(()=>{
     if(ApiData?.category){

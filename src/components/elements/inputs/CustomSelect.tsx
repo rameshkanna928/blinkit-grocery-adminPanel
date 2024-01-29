@@ -55,13 +55,13 @@ function CustomSelect({
     document.addEventListener("click", CloseHandler);
     return () => document.removeEventListener("click", CloseHandler);
   }, []);
-useEffect(()=>{
- if(disabled){
-  setFormData(propertyName,options?.[0])
-  setValue(options?.[0])
- }
-},[disabled])
-console.log("fromiiiiiiii",formData);
+  useEffect(() => {
+    if (disabled) {
+      setFormData(propertyName, options?.[0]);
+      setValue(options?.[0]);
+    }
+  }, [disabled]);
+  console.log("fromiiiiiiii", formData);
 
   const handleFilter = (e: any) => {
     let FilterArr = options.filter((data) =>
@@ -92,8 +92,8 @@ console.log("fromiiiiiiii",formData);
         }
       }}
     >
-      <CustomSelectInput style={{backgroundColor:disabled&&ColorLightAsh}}>
-        <FlexBetween>
+      <CustomSelectInput $open={open} $disabled={disabled}>
+        <FlexBetween direction={"row"}>
           <SpanTag
             style={{
               maxWidth: width,
@@ -107,7 +107,22 @@ console.log("fromiiiiiiii",formData);
             {value}
           </SpanTag>{" "}
           <Icon paddingValue={"0"}>
-            {open ? <IoMdArrowDropup /> : <IoMdArrowDropdown />}
+            {open ? (
+              <IoMdArrowDropup
+                onClick={() => {
+                  if (!disabled) {
+                    setOpen((prev) => !prev);
+                  }
+                }}
+              />
+            ) : (
+              <IoMdArrowDropdown
+              onClick={() => {
+                if (!disabled) {
+                  setOpen((prev) => !prev);
+                }
+              }} />
+            )}
           </Icon>
         </FlexBetween>
       </CustomSelectInput>
@@ -122,6 +137,7 @@ console.log("fromiiiiiiii",formData);
             top: "43px",
             boxShadow: HeaderShadow,
             zIndex: 1,
+            borderRadius: "0 0 6px 6px",
           }}
         >
           {search && (
@@ -170,7 +186,9 @@ console.log("fromiiiiiiii",formData);
                 ))}
               </>
             ) : (
-              <SpanTag style={{ padding: "0 5px" }}>No Results Found</SpanTag>
+              <div style={{ padding: "5px 10px" }}>
+                <SpanTag>No Results Found</SpanTag>
+              </div>
             )}
           </ol>
         </div>

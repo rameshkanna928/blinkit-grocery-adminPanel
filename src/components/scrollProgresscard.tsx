@@ -8,7 +8,7 @@ import {
   ColorDarkGray,
   ColorGray,
 } from "../assets/styles/color";
-import { Grid } from "@mui/material";
+import { Box, Grid, Stack } from "@mui/material";
 import {
   CommonCard,
   CommonContainer,
@@ -16,14 +16,26 @@ import {
   SpanTag,
 } from "../assets/styles";
 
-const ScrollProgresscard = ({ progressName, progressValArr, refContainer }) => {
-  let dep = window.pageYOffset;
+const ScrollProgresscard = ({
+  progressName,
+  progressValArr,
+  refContainer,
+}) => {
+  let dep = window.scrollY;
   let navbar = document.querySelector("#nav-wrapper");
   const [windowTop, setWindowTop] = useState(dep);
-
+  const handleProgressConnectorHeight = (arr) => {
+    if (arr.length >= 5) {
+      return "100%";
+    } else if (arr.length >= 2) {
+      return "70%";
+    } else {
+      return "30%";
+    }
+  };
   useEffect(() => {
     window.addEventListener("scroll", () => {
-      setWindowTop(window.pageYOffset);
+      setWindowTop(Math.ceil(window.scrollY));
     });
   }, [dep]);
   useEffect(() => {
@@ -37,8 +49,7 @@ const ScrollProgresscard = ({ progressName, progressValArr, refContainer }) => {
         if (
           windowTop <
           refContainer?.current[index + 1]?.offsetTop -
-            navbar?.scrollHeight -
-            20
+            (navbar?.scrollHeight + 15)
         ) {
           return trueColor;
         } else {
@@ -52,10 +63,10 @@ const ScrollProgresscard = ({ progressName, progressValArr, refContainer }) => {
         if (
           windowTop >=
             refContainer?.current[index]?.offsetTop -
-              navbar?.scrollHeight - 20 &&
+              (navbar?.scrollHeight + 15) &&
           windowTop <
             refContainer?.current[index + 1]?.offsetTop -
-              navbar?.scrollHeight - 20
+              (navbar?.scrollHeight + 15)
         ) {
           return trueColor;
         } else {
@@ -64,7 +75,7 @@ const ScrollProgresscard = ({ progressName, progressValArr, refContainer }) => {
       } else {
         if (
           windowTop >=
-          refContainer?.current[index]?.offsetTop - navbar?.scrollHeight - 20
+          refContainer?.current[index]?.offsetTop - (navbar?.scrollHeight + 15)
         ) {
           return trueColor;
         } else {
@@ -74,7 +85,13 @@ const ScrollProgresscard = ({ progressName, progressValArr, refContainer }) => {
     }
   };
   return (
-    <Grid item sm={2.8} position={"sticky"} top={80}>
+    <Box
+      maxWidth={{ sm: "100%", lg: "300px" }}
+      width={"100%"}
+      position={"sticky"}
+      top={{ lg: 80 }}
+      display={{ xs: "none", lg: "flex" }}
+    >
       <CommonCard p={2}>
         <CommonContainer style={{ gap: 10 }}>
           <Heading2
@@ -87,13 +104,14 @@ const ScrollProgresscard = ({ progressName, progressValArr, refContainer }) => {
             <span
               style={{
                 width: "2px",
-                height: "70%",
+                height: handleProgressConnectorHeight(progressValArr),
                 backgroundColor: ColorLightAsh,
                 display: "flex",
                 position: "absolute",
                 left: "16px",
                 top: "22px",
                 transition: "all .7s",
+                maxHeight: "370px",
               }}
               className="line"
             ></span>
@@ -102,22 +120,23 @@ const ScrollProgresscard = ({ progressName, progressValArr, refContainer }) => {
                 progressValArr?.map((progrees, i) => (
                   <SpanTag
                     onClick={() => {
-                      console.log(refContainer?.current[i]?.offsetTop);
+                      console.log(
+                        refContainer?.current[i]?.offsetTop -
+                          (navbar?.scrollHeight + 15)
+                      );
 
                       console.log(
                         "navdetails",
-                        navbar?.scrollHeight,
+                        refContainer?.current[i]?.scrollY,
                         "wiii",
-                        window,
-                        refContainer?.current
+                        window
                       );
                       // navbar.
 
                       window.scrollTo({
                         top:
                           refContainer?.current[i]?.offsetTop -
-                          navbar?.scrollHeight -
-                          20,
+                          (navbar?.scrollHeight + 15),
                       });
                     }}
                     key={i}
@@ -132,6 +151,7 @@ const ScrollProgresscard = ({ progressName, progressValArr, refContainer }) => {
                         ColorDarkGreen,
                         ColorDarkGray
                       ),
+                      cursor: "pointer",
                     }}
                   >
                     {" "}
@@ -163,14 +183,14 @@ const ScrollProgresscard = ({ progressName, progressValArr, refContainer }) => {
                         transition: "all .7s",
                       }}
                     ></span>
-                    {progrees?.label}
+                    {progrees}
                   </SpanTag>
                 ))}
             </ul>
           </div>
         </CommonContainer>
       </CommonCard>
-    </Grid>
+    </Box>
   );
 };
 

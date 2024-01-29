@@ -5,13 +5,11 @@ import { FlexBox } from "../../../assets/styles";
 
 function ViewDetails() {
   return (
-    <FlexBox>
 
     <CustomTooltip
       text={<MdOutlineRemoveRedEye size={18} color={ColorDarkGray} />}
       tipText={"View Details"}
     />
-    </FlexBox>
 
   );
 }

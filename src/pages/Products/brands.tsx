@@ -7,7 +7,7 @@ import {
   ParentStack,
   SpaceContainer,
 } from "../../assets/styles";
-import { Box, Grid, Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import {
   ColorDarkGray,
   ColorDarkGreen,
@@ -19,29 +19,27 @@ import SearchButton from "../../components/elements/buttons/search";
 import CustomSelect from "../../components/elements/inputs/CustomSelect";
 import CustomTextInput from "../../components/elements/inputs/CustomtextInput";
 import TableComponent from "../../components/elements/table";
-import ScrollProgresscard from "../../components/scrollProgresscard";
-import { VariationTableDatas, StatusOptions } from "../../utils";
+import {
+  VariationTableDatas,
+  StatusOptions,
+  ProgressValueArrContainer,
+} from "../../utils";
 import { saveIcon } from "../../utils/icons";
 import useRefContainer from "../../Hooks/useRefContainer";
 import ImageSelector from "../../components/elements/inputs/ImageSelector";
 import ProgressPageContainer from "../../components/progressPageContainer";
+import SEOForms from "../../components/forms/SEOForms";
 
 function AllBrands() {
   const { refHolder, pushrefFn } = useRefContainer();
-  console.log("checkproductBrandsRef", refHolder);
 
-  const progressValArr = [
-    { label: "All Brands", val: "All Brands" },
-    { label: "Add New Brand", val: "Add New Brand" },
-    { label: "Add Brand SEO", val: "Add Brand SEO" },
-  ];
   return (
     <ParentStack>
       <PageHeaderComponent pageName="Brands">
         <></>
       </PageHeaderComponent>
       <ProgressPageContainer
-        progressValArr={progressValArr}
+        progressValArr={ProgressValueArrContainer.productAllBrands}
         refHolder={refHolder}
         progressName={"Brand Information"}
       >
@@ -59,6 +57,7 @@ function AllBrands() {
               iconState={true}
               holderText={undefined}
             />
+            <input/>
 
             <CustomSelect
               width={"200px"}
@@ -93,39 +92,15 @@ function AllBrands() {
                       />
                     </Stack>
                     <Stack spacing={1}>
-                      <InputLabel> Brand Image</InputLabel>
-                      <ImageSelector labelName={"Choose Brand Thumbnail"} />
+                      <ImageSelector inputName="Brand Image" labelName={"Choose Brand Thumbnail"} />
                     </Stack>
                   </Stack>
                 </PageHeader>
               </ParentStack>
             </div>
             <div ref={(el) => pushrefFn(el)}>
-              <ParentStack>
-                <PageHeader>
-                  <Stack spacing={3} width={"100%"}>
-                    <Heading2>SEO Meta Configuration</Heading2>
-                    <Stack spacing={1}>
-                      <InputLabel style={{ color: ColorDarkGray }}>
-                        {" "}
-                        Meta Title
-                      </InputLabel>
-                      <CustomTextInput
-                        changeFunction={undefined}
-                        iconState={false}
-                        holderText={"Type meat title"}
-                      />
-                    </Stack>
-                    <Stack spacing={1}>
-                      <InputLabel> Meta Description</InputLabel>
-                      <CustomTextArea placeholder="Type your meta description" />
-                    </Stack>
-                    <Stack spacing={1}>
-                      <InputLabel> Meta Image</InputLabel>
-                      <ImageSelector labelName={"Choose Meta Image"} />
-                    </Stack>
-                  </Stack>
-                </PageHeader>
+              <Stack spacing={3}>
+                <SEOForms />
                 <Box maxWidth={200}>
                   <ReuseButton
                     color={ColorGreen}
@@ -137,7 +112,8 @@ function AllBrands() {
                     routeLink={""}
                   />
                 </Box>
-              </ParentStack>
+              </Stack>
+
               <SpaceContainer $space="650px" />
             </div>
           </ParentStack>
