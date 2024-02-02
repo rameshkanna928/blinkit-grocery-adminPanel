@@ -10,12 +10,12 @@ import {
 } from "../../assets/styles";
 import { ColorWhite } from "../../assets/styles/color";
 
-function PageHeaderComponent({children,pageName}:{children:ReactNode,pageName:string}) {
+function PageHeaderComponent({children,pageName}:{children?:ReactNode,pageName:string}) {
   return (
     <PageHeader justifyContent={{sm:"space-between"}} direction={{sm:"row"}} alignItems={{sm:"center"}} rowGap={2}>
       <Heading2 >{pageName}</Heading2>
-      <PageHeaderToolbar direction={{xs:"row"}}  alignItems={"start"} justifyContent={"space-between"}>
-        {children}
+      <PageHeaderToolbar direction={{xs:"row"}}  alignItems={"start"} justifyContent={"space-between"} columnGap={2}>
+        {children && children}
       </PageHeaderToolbar>
     </PageHeader>
   );

@@ -1,13 +1,18 @@
-import React from "react";
+import  { ReactSVGElement } from "react";
 import { CustomSubList, FlexStart } from "../../assets/styles";
 
-function IconText({ icon, startIcon, text }) {
+interface IProps{
+  icon:ReactSVGElement;
+  text:string;
+  startIcon:boolean;
+}
+function IconText({ icon, startIcon, text }:IProps) {
   return (
     <div>
       {startIcon ? (
         <CustomSubList style={{padding:0}}>
           <FlexStart direction={"row"} style={{ columnGap: "10px",padding:"5px 15px" }}>
-            {icon}
+           {icon}
             {text}
           </FlexStart>
         </CustomSubList>

@@ -1,12 +1,5 @@
 import {
-  CommonCard,
-  CommonContainer,
-  CountTag,
-  NumberTag,
-  RoundedIcons,
-  SalesCard,
-  SpanTag,
-} from "../../assets/styles";
+  CommonContainer} from "../../assets/styles";
 import { FiShoppingCart } from "react-icons/fi";
 import { FiPlus } from "react-icons/fi";
 import {
@@ -18,13 +11,11 @@ import {
   LessLightBlue,
 } from "../../assets/styles/color";
 import PageHeaderComponent from "../../components/parts/pageheader";
-import { Divider, Grid, Stack } from "@mui/material";
+import {  Grid } from "@mui/material";
 import ReusableChartCard from "../../components/dashboardCharts/reusableCharts";
 import RecentOrders from "./RecentOrders";
-import TableItems from "../../components/elements/TableItems";
 import { FetchQuery } from "../../API/service";
 import {
-  getTopSellingProducts,
   orderDetailsCountForCard,
 } from "../../API/query";
 import UseFetchQuery from "../../Hooks/useFetchQuery";
@@ -44,7 +35,7 @@ function Dashboard() {
 
   useEffect(() => {
     setOrdersCountArr(ordersCount?.data?.getOrderDetailsCount);
-    let we = ordersCount?.data?.getOrderDetailsCount?.map((data) => {
+    let we:any = ordersCount?.data?.getOrderDetailsCount?.map((data:{label:string}) => {
       let letsFindObj = OrdersCardIcon.find(
         (val) => val?.label === data?.label
       );

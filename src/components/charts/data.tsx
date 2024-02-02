@@ -1,5 +1,4 @@
-import { useSelector } from "react-redux";
-import { ColorDarkGray, ColorGray, ColorGreen, ColorLightAsh, ColorLightGreen } from "../../assets/styles/color";
+import {  ColorGray, ColorGreen,  ColorLightGreen } from "../../assets/styles/color";
 
 
 export const EarningChartOptions = {

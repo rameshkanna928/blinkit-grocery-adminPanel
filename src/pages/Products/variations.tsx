@@ -20,7 +20,6 @@ import {
   StatusOptions,
   VariationTableDatas,
 } from "../../utils";
-import ScrollProgresscard from "../../components/scrollProgresscard";
 import ReuseButton from "../../components/elements/buttons/ReusableButton";
 import {
   ColorDarkGreen,
@@ -79,7 +78,6 @@ function AllVariations() {
           </TableComponent>
         </div>
         <div ref={(el) => pushrefFn(el)}>
-          <form>
             <ParentStack>
               <PageHeader>
                 <Stack spacing={2} width={"100%"}>
@@ -106,7 +104,6 @@ function AllVariations() {
                 />
               </Box>
             </ParentStack>
-          </form>
           <SpaceContainer $space="900px" />
         </div>
       </ProgressPageContainer>

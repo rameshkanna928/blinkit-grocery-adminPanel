@@ -4,12 +4,12 @@ import { Heading6, SmallSpan } from "../../assets/styles";
 interface IProps {
   data: {
     name: string;
-    image: string;
-    span: string;
+    image: string|null;
+    span: string|null;
   };
   space: any;
-  imgW?: string;
-  imgH?: string;
+  imgW?: string|number;
+  imgH?: string|number;
 }
 function TableItems({ data, space, imgW, imgH }: IProps) {
   return (

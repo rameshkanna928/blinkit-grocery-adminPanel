@@ -1,15 +1,16 @@
-import React from "react";
 import {
   ColorDarkGreen,
   ColorGreen,
-  ColorLightGreen,
   ColorWhite,
 } from "../../../assets/styles/color";
 import { saveIcon } from "../../../utils/icons";
 import ReuseButton from "./ReusableButton";
 import { Box } from "@mui/material";
 
-function FormSaveButton({ buttonName }) {
+interface IProps{
+  buttonName:string
+}
+function FormSaveButton({ buttonName }:IProps) {
   return (
     <Box maxWidth={200}>
       <ReuseButton

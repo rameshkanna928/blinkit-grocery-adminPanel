@@ -1,4 +1,3 @@
-import { ReactHTMLElement } from "react";
 import { CustomButton, CustomLink } from "../../../assets/styles";
 import Icon from "../icons";
 

@@ -17,6 +17,7 @@ import ReuseButton from "../elements/buttons/ReusableButton";
 import CustomTextInput from "../elements/inputs/CustomtextInput";
 import ImageSelector from "../elements/inputs/ImageSelector";
 import InputContainer from "../elements/InputContainer";
+import { useEffect } from "react";
 
 function SEOForms() {
   return (
@@ -25,12 +26,9 @@ function SEOForms() {
         <Stack spacing={3} width={"100%"}>
           <Heading2>SEO Meta Configuration</Heading2>
           <InputContainer>
-            <InputLabel >
-              {" "}
-              Meta Title
-            </InputLabel>
+            <InputLabel> Meta Title</InputLabel>
             <CustomTextInput
-              changeFunction={undefined}
+              changeFunction={()=>{}}
               iconState={false}
               holderText={"Type meat title"}
             />

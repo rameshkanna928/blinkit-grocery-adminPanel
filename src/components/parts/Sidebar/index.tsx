@@ -61,11 +61,8 @@ function index({ open, setOpen }: ISideBar) {
             <img src={AppLogo} alt="??" />
 
             <ImgWrapper $open={open || hoverState}>
-              <NumberTag style={{ fontWeight: 700,fontSize:24,margin:0 }}>
-                G
-                <SpanTag >
-                  rostore
-                </SpanTag>
+              <NumberTag style={{ fontWeight: 700, fontSize: 24, margin: 0 }}>
+                G<SpanTag>rostore</SpanTag>
               </NumberTag>
             </ImgWrapper>
           </FlexStart>
@@ -105,7 +102,6 @@ function index({ open, setOpen }: ISideBar) {
                 data.subMenu ? (
                   <>
                     <FlexStart
-                      onMouseEnter={() => dispatch(setCurrentRouteId(data.id))}
                       direction={"row"}
                       key={pi}
                       $curRoute={pathname?.includes(data?.defaultURI)}
@@ -162,7 +158,12 @@ function index({ open, setOpen }: ISideBar) {
                   <Link to={data.uri}>
                     <FlexStart
                       direction={"row"}
-                      $curRoute={pathname === data.uri}
+                      $curRoute={
+                        pathname === data.uri ||
+                        data?.childRoutes?.includes(pathname)
+                          ? true
+                          : false
+                      }
                       $Toogle={data.id === curentRouteId}
                       $open={open || hoverState}
                       onClick={function () {
@@ -174,7 +175,10 @@ function index({ open, setOpen }: ISideBar) {
                         localStorage.setItem("routeId", data.id);
                       }}
                     >
-                      <FlexBox $routeIcon={pathname === data.uri}>
+                      <FlexBox $routeIcon={pathname === data.uri ||
+                        data?.childRoutes?.includes(pathname)
+                          ? true
+                          : false}>
                         {" "}
                         {data?.icon}{" "}
                       </FlexBox>
@@ -199,11 +203,8 @@ function index({ open, setOpen }: ISideBar) {
         onclose={() => dispatch(onSidebarClose())}
       >
         {renderChild("smallScreen")}
-        {/* {RenderSidebarItems("smallScreen")} */}
       </CustomDrawer>
-      {/* {RenderSidebarItems("bigScreen")}
-       */}
-      {/* <RenderSidebarItems variation={"bigScreen"} /> */}
+
       <div
         className="hideOn1000"
         onMouseEnter={() => setHoverState(true)}

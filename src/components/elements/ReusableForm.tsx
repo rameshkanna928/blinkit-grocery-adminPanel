@@ -1,9 +1,9 @@
-import React from "react";
+import { ReactNode } from "react";
 import { ParentStack } from "../../assets/styles";
 
-function ReusableForm({ children }) {
+function ReusableForm({ children }:{children:ReactNode}) {
   return (
-    <form>
+    <form >
       <ParentStack>{children}</ParentStack>
     </form>
   );

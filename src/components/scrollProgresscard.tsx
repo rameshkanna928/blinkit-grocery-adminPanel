@@ -1,30 +1,40 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ColorLightAsh,
   ColorDarkGreen,
   ColorGreen,
-  ColorWhite,
-  ColorBlack,
-  ColorDarkGray,
-  ColorGray,
+  darkBodyBackground,
+  ColorLightGray,
 } from "../assets/styles/color";
-import { Box, Grid, Stack } from "@mui/material";
+import { Box } from "@mui/material";
 import {
   CommonCard,
   CommonContainer,
   Heading2,
   SpanTag,
 } from "../assets/styles";
+import { useSelector } from "react-redux";
 
+interface IProps {
+  progressValArr: string[];
+  refContainer: {current:HTMLDivElement[]};
+  progressName: string;
+}
 const ScrollProgresscard = ({
   progressName,
   progressValArr,
   refContainer,
-}) => {
+}: IProps) => {
   let dep = window.scrollY;
-  let navbar = document.querySelector("#nav-wrapper");
+  let navbar:Element|null|undefined = document.querySelector("#nav-wrapper");
   const [windowTop, setWindowTop] = useState(dep);
-  const handleProgressConnectorHeight = (arr) => {
+  const { status } = useSelector((state:{mode:{status:string}}) => state.mode);
+
+  console.log("callThsFun23");
+
+  const handleProgressConnectorHeight = (arr:string[]) => {
+    console.log("callThsFun");
+
     if (arr.length >= 5) {
       return "100%";
     } else if (arr.length >= 2) {
@@ -41,7 +51,15 @@ const ScrollProgresscard = ({
   useEffect(() => {
     console.log("topValue", windowTop);
   }, [windowTop]);
-  const applyStyleByRef = (index, arrLength, trueColor, falseColor) => {
+  useEffect(() => {
+    handleProgressConnectorHeight([]);
+  }, []);
+  const applyStyleByRef = (
+    index: number,
+    arrLength: number,
+    trueColor: string,
+    falseColor: string
+  ) => {
     let navbar = document.querySelector("#nav-wrapper");
 
     if (index === 0) {
@@ -86,6 +104,7 @@ const ScrollProgresscard = ({
   };
   return (
     <Box
+     
       maxWidth={{ sm: "100%", lg: "300px" }}
       width={"100%"}
       position={"sticky"}
@@ -105,7 +124,8 @@ const ScrollProgresscard = ({
               style={{
                 width: "2px",
                 height: handleProgressConnectorHeight(progressValArr),
-                backgroundColor: ColorLightAsh,
+                backgroundColor:
+                  status === "light" ? ColorLightAsh : darkBodyBackground,
                 display: "flex",
                 position: "absolute",
                 left: "16px",
@@ -149,7 +169,7 @@ const ScrollProgresscard = ({
                         i,
                         progressValArr?.length,
                         ColorDarkGreen,
-                        ColorDarkGray
+                        ColorLightGray
                       ),
                       cursor: "pointer",
                     }}
@@ -164,13 +184,17 @@ const ScrollProgresscard = ({
                           i,
                           progressValArr?.length,
                           ColorDarkGreen,
-                          ColorLightAsh
+                          status === "light"
+                            ? ColorLightAsh
+                            : darkBodyBackground
                         ),
                         borderRadius: "50%",
                         border: `3px solid ${applyStyleByRef(
                           i,
                           progressValArr?.length,
-                          ColorWhite,
+                          status === "light"
+                            ? ColorLightAsh
+                            : darkBodyBackground,
                           "transparent"
                         )}`,
                         padding: "2px",

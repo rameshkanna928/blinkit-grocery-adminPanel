@@ -1,24 +1,23 @@
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import { CommonCard, FlexBetween, SpanTag } from "../../assets/styles";
 import TableHeader from "./Tableheader";
 import { Pagination, Stack } from "@mui/material";
-import { ColorBlack, ColorDarkGray, ColorGreen, ColorLightAsh, LightBorderColor } from "../../assets/styles/color";
-import DataTable from "react-data-table-component";
+import {
+  ColorBlack,
+  ColorDarkGray,
+  ColorGreen,
+  ColorWhite,
+  LightBorderColor,
+} from "../../assets/styles/color";
+import DataTable, { TableColumn } from "react-data-table-component";
 import ExpandableTable from "../ExpandableTable";
-import index from "../parts/Sidebar";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { darkTheme, lightTheme } from "../theme";
 
 interface IProps {
   tableData: {
-    columnHeader: string[];
-    rowData: {}[];
+    columnHeader: TableColumn<{}>[];
+    rowData: { "S/L": any }[];
   };
   children: React.ReactNode;
   setPageNumber: (value: number) => void;
@@ -32,9 +31,11 @@ function TableComponent({
   totalRows,
   page,
 }: IProps) {
-  const { status } = useSelector((state) => state?.mode);
+  const { status } = useSelector(
+    (state: { mode: { status: string } }) => state?.mode
+  );
   const [scrollWidth, setScrollWidth] = useState(window?.innerWidth);
-  const ExpandedComponent = ({ data }) => {
+  const ExpandedComponent = ({ data }: any) => {
     // const parsedObj = JSON.parse(data);
     // console.log("adfsdfgfs", data);
 
@@ -53,13 +54,14 @@ function TableComponent({
     };
   }, []);
   const customStyles = {
+   
+   
     rows: {
       style: {
         backgroundColor:
           status === "light"
             ? lightTheme.partBackground
             : darkTheme.partBackground,
-
       },
     },
     headCells: {
@@ -68,20 +70,18 @@ function TableComponent({
           status === "light"
             ? lightTheme.partBackground
             : darkTheme.partBackground,
-        color:
-          status === "light"
-            ? lightTheme.blackText
-            : darkTheme.blackText,
+        color: status === "light" ? ColorBlack : ColorWhite,
+        fontSize: 14,
+        fontWeight: 600,
       },
     },
     headRow: {
       style: {
-       borderBottomColor: status === "light"?LightBorderColor:ColorDarkGray
+        borderBottomColor:
+          status === "light" ? LightBorderColor : ColorDarkGray,
       },
     },
-    cells: {
-      style: {},
-    },
+
   };
   return (
     <CommonCard>
@@ -94,6 +94,7 @@ function TableComponent({
           data={tableData.rowData}
           expandableRows={scrollWidth <= 1280 ? true : false}
           expandableRowsComponent={ExpandedComponent}
+        
         />
 
         {tableData?.rowData?.length > 0 && (
@@ -107,22 +108,24 @@ function TableComponent({
               {tableData?.rowData?.[tableData?.rowData?.length - 1]?.["S/L"]} of{" "}
               {totalRows ? totalRows : tableData?.rowData?.length} results
             </SpanTag>
-            {totalRows > 10 && (
+            {totalRows && totalRows > 10 && (
               <Pagination
                 sx={{
                   li: {
                     button: {
-                      color: "black",
+                      color: status === "light" ? ColorBlack : ColorWhite,
                       backgroundColor: "transparent",
                       border: "1px solid transparent",
                       ":hover": {
-                        color: "white",
+                        color: status === "light" ? ColorWhite : ColorBlack,
                         backgroundColor: ColorGreen,
+                        fontWeight: 600,
                       },
                       "&.Mui-selected": {
                         backgroundColor: ColorGreen,
-                        color: "white",
+                        color: status === "light" ? ColorWhite : ColorBlack,
                         border: "1px solid transparent",
+                        fontWeight: 600,
 
                         ":hover": {
                           backgroundColor: ColorGreen,
@@ -131,7 +134,7 @@ function TableComponent({
                     },
                   },
                 }}
-                onChange={(e, page) => {
+                onChange={(_, page) => {
                   setPageNumber(page);
                   localStorage.setItem(
                     "tablePageNumbers",

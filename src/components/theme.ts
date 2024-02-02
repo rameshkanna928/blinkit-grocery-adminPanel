@@ -1,4 +1,4 @@
-import { ColorBlack, ColorDarkGray, ColorLightAsh, ColorLightWhite, ColorWhite, LightBorderColor, darkBodyBackground } from "../assets/styles/color"
+import { ColorBlack, ColorDarkGray, ColorLightAsh, ColorLightGray, ColorLightWhite, ColorWhite, LightBorderColor, darkBodyBackground } from "../assets/styles/color"
 
 export const lightTheme = {
     bodyBackground:ColorLightWhite,
@@ -10,6 +10,7 @@ export const lightTheme = {
     cardBorder:`1px solid ${LightBorderColor}`,
     inputBackground:ColorWhite,
     disableInputBackground:ColorLightAsh,
+    svgColor:ColorDarkGray
 }
 export const darkTheme = {
     bodyBackground: darkBodyBackground,
@@ -17,10 +18,11 @@ export const darkTheme = {
     toggleBorder: '#6B8096',
     background: '#999',
     partBackground:ColorBlack,
-    blackText:ColorWhite,
+    blackText:ColorLightGray,
     cardBorder:`1px solid #ffffff26`,
     inputBackground:darkBodyBackground,
     disableInputBackground:ColorDarkGray,
+    svgColor:ColorLightAsh
 
 
 }

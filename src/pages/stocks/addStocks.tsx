@@ -18,13 +18,18 @@ import CustomTextInput from "../../components/elements/inputs/CustomtextInput";
 import { saveIcon } from "../../utils/icons";
 import useRefContainer from "../../Hooks/useRefContainer";
 import CustomSelect from "../../components/elements/inputs/CustomSelect";
-import { LocationList, ProductList, ProgressValueArrContainer, setFormDataByComp } from "../../utils";
+import {
+  LocationList,
+  ProductList,
+  ProgressValueArrContainer,
+  setFormDataByComp,
+} from "../../utils";
 import ProgressPageContainer from "../../components/progressPageContainer";
 
 function AddStocks() {
   const { refHolder, pushrefFn } = useRefContainer();
   const [formData, setFormData] = useState({
-    "location":"Location"
+    location: LocationList[0],
   });
 
   const handleChange = (name: string, value: string) => {
@@ -42,7 +47,6 @@ function AddStocks() {
         progressName={"Stock Information"}
       >
         <div ref={(el) => pushrefFn(el)}>
-          <form>
             <ParentStack>
               <PageHeader>
                 <Stack spacing={2} width={"100%"}>
@@ -71,7 +75,7 @@ function AddStocks() {
                         handleChange(name, value)
                       }
                       propertyName={"product"}
-                      disabled ={formData["location"] ==="Location"}
+                      disabled={formData["location"] ===LocationList[0]}
                     />
                   </Stack>
                 </Stack>
@@ -88,7 +92,6 @@ function AddStocks() {
                 />
               </Box>
             </ParentStack>
-          </form>
           <SpaceContainer $space="900px" />
         </div>
       </ProgressPageContainer>

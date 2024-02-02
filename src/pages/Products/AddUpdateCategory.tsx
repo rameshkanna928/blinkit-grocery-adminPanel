@@ -18,13 +18,13 @@ import { Stack } from "@mui/material";
 import CustomTextInput from "../../components/elements/inputs/CustomtextInput";
 import CustomSelect from "../../components/elements/inputs/CustomSelect";
 
-function AddCategory() {
+function AddCategory({pageName}) {
   const { pushrefFn, refHolder } = useRefContainer();
   console.log(ProgressValueArrContainer.productAddCategory);
 
   return (
     <ParentStack>
-      <PageHeaderComponent pageName="Add Category">
+      <PageHeaderComponent pageName={pageName}>
         <></>
       </PageHeaderComponent>
       <ProgressPageContainer

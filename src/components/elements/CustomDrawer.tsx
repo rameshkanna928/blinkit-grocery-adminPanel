@@ -4,7 +4,7 @@ interface IProps {
   children: React.ReactNode;
   position: "left" | "top" | "right" | "bottom" | undefined;
   open: boolean;
-  onclose: () => {};
+  onclose: () => void;
 }
 export default function CustomDrawer({
   children,

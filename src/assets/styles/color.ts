@@ -18,6 +18,7 @@ export const ColorLightOrange2 = "#FF7C0826";
 export const ColorBlue = "#0D5ABF";
 export const ColorLightBlue = "#0D5ABF26";
 export const ColorGreen2 = "#20B250";
+export const ColorDarkGreen2 = "#18873d";
 export const ColorLightGreen2 = "#20B25026";
 export const ColorLightAsh = "#dfe3e8";
 export const LightBorderColor = "#00000018";

@@ -1,5 +1,4 @@
-import { Button, Stack, Tooltip, Zoom } from "@mui/material";
-import { CustomLink } from "../../../assets/styles";
+import {  Tooltip, Zoom } from "@mui/material";
 
 interface IProps {
   text: any;
@@ -7,7 +6,8 @@ interface IProps {
 }
 function CustomTooltip({ text, tipText }: IProps) {
   return (
-    <Tooltip TransitionComponent={Zoom} title={tipText} placement="top" arrow>
+    <Tooltip TransitionComponent={Zoom} title={tipText} placement="top" arrow >
+      
       < span>{text}</span>
     </Tooltip>
   );

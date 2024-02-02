@@ -37,13 +37,13 @@ function SliderComponent() {
   var settings = {
     dots: false,
     infinite: false,
-    speed: 500,
+    speed: 1000,
     slidesToShow: 7,
     slidesToScroll: 1,
   };
   return (
     <Slider {...settings}>
-      {Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10).map((data) => (
+      {[...Array(10)].map((data) => (
         <div>
           <CommonCard width={"90%"}>
             <FlexBox p={2} spacing={1}>

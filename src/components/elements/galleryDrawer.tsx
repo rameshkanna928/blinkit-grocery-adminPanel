@@ -1,31 +1,28 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
   FlexBetween,
-  FlexBox,
   Heading2,
   Heading6,
   ParentStack,
 } from "../../assets/styles";
 import {
   ColorGray,
-  ColorLightAsh,
   LightBorderColor,
 } from "../../assets/styles/color";
-import ReUseDrawer from "./CustomDrawer";
 import { IoCloseOutline } from "react-icons/io5";
 import { onClose } from "../../redux/slices/DrawerSlide";
 import { Box, Stack } from "@mui/material";
 import CustomDrawer from "./CustomDrawer";
 function GalleryDrawer() {
   const dispatch = useDispatch();
-  const { open } = useSelector((state) => state.drawer);
+  const { open } = useSelector((state:{drawer:{open:boolean}}) => state.drawer);
   console.log("gc", open);
 
   return (
     <CustomDrawer
       position={"bottom"}
       open={open}
-      onclose={function (): {} {
+      onclose={function () {
         dispatch(onClose());
       }}
     >

@@ -32,13 +32,15 @@ function App() {
         <Navbar sideBarStatus={sideBarOpen} />
         {!posState && <Sidebar open={sideBarOpen} setOpen={setSideBarOpen} />}
 
-        <ChildWrapper $open={sideBarOpen} $Pos={posState} justifyContent={"center"}>
+        <ChildWrapper $open={sideBarOpen} $Pos={posState} justifyContent={"flex-end"}>
           <ChildContainer $Pos={posState}>
             <AppRoutes />
           </ChildContainer>
         </ChildWrapper>
+
         <GalleryDrawer />
-        <Footer sideBarOpen={sideBarOpen} />
+        {!posState && 
+        <Footer sideBarOpen={sideBarOpen} />}
       </>
     </ThemeProvider>
   );

@@ -5,6 +5,7 @@ import {
   SpanTag,
   NumberTag,
   CustomSubList,
+  FlexBetween,
 } from "../../assets/styles";
 import CustomDropDown from "../elements/CustomDropDown";
 import { FetchQuery } from "../../API/service";
@@ -26,6 +27,7 @@ import {
 } from "../charts/data";
 import { DoughnutChart } from "../charts/doughnut";
 import { IoMdArrowDropdown } from "react-icons/io";
+import { ColorDarkGray } from "../../assets/styles/color";
 
 function ReusableChartCard({
   caseValue,
@@ -35,10 +37,11 @@ function ReusableChartCard({
   filter: boolean;
 }) {
   let earningFilterSalesDetails = JSON.parse(
-    localStorage?.getItem("earningSaleDetails"));
+    JSON.stringify(localStorage?.getItem("earningSaleDetails"))
+  );
   const [chartTitle, setChartTitle] = useState("");
   const [chartTotal, setChartTotal] = useState("");
-  const [chartApiDatas, setChartApiDatas] = useState(null);
+  const [chartApiDatas, setChartApiDatas] = useState({});
 
   const [filterValue, setFilterValue] = useState(
     earningFilterSalesDetails?.label
@@ -53,24 +56,21 @@ function ReusableChartCard({
   const { LoadQuery: earningsLoadQuery, data: ApiEarningsData } = FetchQuery(
     getToatalEarnings
   );
-  const { LoadQuery: categoryLoadQuery, data: ApicategoryData } = FetchQuery(
-    getCategoryChart
-  );
-  const { LoadQuery: ordersLoadQuery, data: ApiordersData } = FetchQuery(
-    getOrdersChart
-  );
-  const { LoadQuery: salesLoadQuery, data: ApisalesData } = FetchQuery(
-    getCurrentMonthSalesChart
-  );
+  const { LoadQuery: categoryLoadQuery } = FetchQuery(getCategoryChart);
+  const { LoadQuery: ordersLoadQuery } = FetchQuery(getOrdersChart);
+  const { LoadQuery: salesLoadQuery } = FetchQuery(getCurrentMonthSalesChart);
   const { ApiResults } = UseFetchQuery(earningsLoadQuery, {
     days: earningFilterSalesDetails?.value
       ? earningFilterSalesDetails?.value
       : 7,
   });
-  const { ApiResults: OrdersApiResults } = UseFetchQuery(ordersLoadQuery, null);
+  const { ApiResults: OrdersApiResults } = UseFetchQuery(ordersLoadQuery, {});
   // console.log("forOrdersData", OrdersApiResults);
-  const {ApiResults:categoryApiResults} = UseFetchQuery(categoryLoadQuery, null);
-  const {ApiResults:salesApiResults} = UseFetchQuery(salesLoadQuery, null);
+  const { ApiResults: categoryApiResults } = UseFetchQuery(
+    categoryLoadQuery,
+    {}
+  );
+  const { ApiResults: salesApiResults } = UseFetchQuery(salesLoadQuery, {});
   const dynDepen = () => {
     switch (caseValue) {
       case "earnings": {
@@ -206,13 +206,18 @@ function ReusableChartCard({
             <NumberTag>{chartTotal}</NumberTag>
           </Stack>
           {filter && (
-            <CustomDropDown value={ <>
-            {filterValue}  <IoMdArrowDropdown size={18} /> 
-            </>}>
+            <CustomDropDown
+              value={
+                <FlexBetween direction={"row"}>
+                  <SpanTag color={ColorDarkGray}>{filterValue}</SpanTag>{" "}
+                  <IoMdArrowDropdown size={18} color={ColorDarkGray} />
+                </FlexBetween>
+              }
+            >
               <Box width={200} px={2}>
-                {filterArr.map((data,i) => (
+                {filterArr.map((data, i) => (
                   <CustomSubList
-                  key={i}
+                    key={i}
                     onClick={() => {
                       setFilterValue(data.label);
                       ApiResults.refetch({

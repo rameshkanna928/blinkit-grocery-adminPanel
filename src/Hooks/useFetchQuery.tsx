@@ -2,25 +2,35 @@ import { useEffect, useState } from "react";
 
 function UseFetchQuery(LoadQuery: ({}) => {}, variables: {}) {
   const [ApiResults, setApiResults] = useState({
-    data: {
-       getAllCategories:[]
+    data:{
+      getOrdersChart:{
+        total:0
+      },
+      getCategoryCharts:{
+        total:0
+      },
+      getSaleThisMonthChart:{
+        total:0
+      },
+      getOrderDetailsCount:[],
+      
     },
-    refetch: () => {},
+    refetch:({})=>{}
   });
   const fetchdatas = (params: {}) => {
-    console.log("paramsDYNHook",params);
-    
-    return new Promise(async (res, rej) => {
-      const response = await LoadQuery({
+    console.log("paramsDYNHook", params);
+
+    return new Promise((res, rej) => {
+      const response = LoadQuery({
         variables: params,
       });
       if (response) {
         res(response);
       } else {
-        rej((Err: {}) => console.log(Err));     
+        rej((Err: {}) => console.log(Err));
       }
     })
-      .then((res) =>
+      .then((res:any) =>
         setApiResults((prev) => ({
           ...prev,
           data: res?.data,

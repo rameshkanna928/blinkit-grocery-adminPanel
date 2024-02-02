@@ -19,6 +19,7 @@ import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { FiEdit3 } from "react-icons/fi";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { LiaSaveSolid } from "react-icons/lia";
+import { FiPlus } from "react-icons/fi";
 import {
   ColorBlue,
   ColorGray,
@@ -32,6 +33,7 @@ import {
   ColorOrange,
   ColorOrange2,
 } from "../assets/styles/color";
+
 const IconColor = "#637381";
 const currentUrl = window.location.href;
 console.log("IIII", currentUrl);
@@ -39,7 +41,8 @@ console.log("IIII", currentUrl);
 export const viewIcon = <MdOutlineRemoveRedEye />;
 export const editIcon = <FiEdit3 />;
 export const deleteIcon = <RiDeleteBin5Line />;
-export const saveIcon = <LiaSaveSolid  />;
+export const saveIcon = <LiaSaveSolid />;
+export const plusIcon = <FiPlus />;
 export const DashBoardIcon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"

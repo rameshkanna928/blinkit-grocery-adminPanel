@@ -24,7 +24,6 @@ function RefundsConfigurations() {
         progressName={"Refund Information"}
       >
         <div ref={(el) => pushrefFn(el)}>
-          <form>
             <ParentStack>
               <PageHeader>
                 <Stack spacing={2} width={"100%"}>
@@ -65,7 +64,6 @@ function RefundsConfigurations() {
                 />
               </Box>
             </ParentStack>
-          </form>
           <SpaceContainer $space="900px" />
         </div>
       </ProgressPageContainer>

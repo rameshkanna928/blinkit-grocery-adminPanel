@@ -8,7 +8,6 @@ import {
 import { FiPlus } from "react-icons/fi";
 import { Stack } from "@mui/material";
 import { onOpen } from "../../../redux/slices/DrawerSlide";
-import { setCurrentRouteId } from "../../../redux/slices/SideBarSlice";
 import { useDispatch } from "react-redux";
 
 interface IProps {

@@ -1,7 +1,10 @@
 import { Stack } from "@mui/material";
-import React from "react";
+import { ReactNode } from "react";
 
-function InputContainer({ children }) {
+interface IProps{
+  children:ReactNode
+}
+function InputContainer({ children }:IProps) {
   return <Stack width={"100%"} rowGap={1}>{children}</Stack>;
 }
 

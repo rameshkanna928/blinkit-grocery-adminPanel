@@ -1,15 +1,7 @@
 import { useEffect, useState } from "react";
 import PageHeaderComponent from "../../components/parts/pageheader";
+import { CountTag, ParentStack, SmallSpan, SpanTag } from "../../assets/styles";
 import {
-  CountTag,
-  FlexBetween,
-  FlexBox,
-  ParentStack,
-  SmallSpan,
-  SpanTag,
-} from "../../assets/styles";
-import {
-  ColorBlack,
   ColorDarkGreen,
   ColorDarkRed,
   ColorGreen,
@@ -32,17 +24,15 @@ import { FetchQuery } from "../../API/service";
 import { getAllCategories, getAllProductsForAdmin } from "../../API/query";
 import UseFetchQuery from "../../Hooks/useFetchQuery";
 import TableItems from "../../components/elements/TableItems";
-import { RxDotsVertical } from "react-icons/rx";
 import ToogleButton from "../../components/elements/buttons/ToogleButton";
 import TableStatusCard from "../../components/elements/TableStatusCard";
 import CustomSelect from "../../components/elements/inputs/CustomSelect";
 import SearchButton from "../../components/elements/buttons/search";
-import CustomDropDown from "../../components/elements/CustomDropDown";
 import ToolDropdown from "../../components/toolbar/ToolDropdown";
-import { deleteIcon, editIcon, viewIcon } from "../../utils/icons";
+import { editIcon, viewIcon } from "../../utils/icons";
 import CustomTextInput from "../../components/elements/inputs/CustomtextInput";
-import { setCurrentRouteId } from "../../redux/slices/SideBarSlice";
 import { RoutePaths } from "../../routes";
+import { Box } from "@mui/material";
 function AllProducts() {
   let getStorageItem = JSON.parse(
     JSON.stringify(localStorage.getItem("tablePageNumbers"))
@@ -107,7 +97,11 @@ function AllProducts() {
           Actions: (
             <ToolDropdown
               arr={[
-                { text: "Edit", icon: editIcon },
+                {
+                  text: "Edit",
+                  icon: editIcon,
+                  routePath: RoutePaths.products.updateProduct,
+                },
                 { text: "View Details", icon: viewIcon },
               ]}
               width={"100%"}
@@ -132,15 +126,12 @@ function AllProducts() {
     });
   }, [allCategory]);
 
-  const handleFormdatas = (name: string, value: string) => {
+  const handleFormdatas = ({ name, value }) => {
     setFormDataByComp(name, value, setFormdatas);
+    console.log("formDatas", formDatas, name, value);
   };
 
   console.log("asStore12", tableData);
-
-  function dispatch(arg0: any): void {
-    throw new Error("Function not implemented.");
-  }
 
   return (
     <ParentStack>
@@ -163,15 +154,15 @@ function AllProducts() {
           textColor={ColorWhite}
           routeLink={""}
         />
-          <ReuseButton
-            color={ColorGreen}
-            iconPadding={"0 5px"}
-            icon={<FiPlus />}
-            text={"Add Product"}
-            hovercolor={ColorDarkGreen}
-            textColor={ColorWhite}
-            routeLink={RoutePaths.products.addProduct}
-          />
+        <ReuseButton
+          color={ColorGreen}
+          iconPadding={"0 5px"}
+          icon={<FiPlus />}
+          text={"Add Product"}
+          hovercolor={ColorDarkGreen}
+          textColor={ColorWhite}
+          routeLink={RoutePaths.products.addProduct}
+        />
       </PageHeaderComponent>
       <TableComponent
         tableData={tableData}
@@ -180,31 +171,31 @@ function AllProducts() {
         setPageNumber={setPageNumber}
       >
         <CustomTextInput
-          changeFunction={(value: string) => handleFormdatas("search", value)}
+          inputProps={{
+            name: "search",
+            placeHolder: "search",
+            onChange: (e) => handleFormdatas(e.target),
+          }}
           iconState={true}
           holderText={"search"}
         />
+        <Box maxWidth={"200px"} width={"100%"}>
+          <CustomSelect
+            inputProps={{
+              options: categoryOptions,
+              defaultValue: categoryOptions[0],
+            }}
+          />
+        </Box>
 
-        <CustomSelect
-          formData={formDatas}
-          setFormData={(name: string, value: string) =>
-            handleFormdatas(name, value)
-          }
-          width={"250px"}
-          search={true}
-          options={categoryOptions}
-          propertyName={"category"}
-        />
-        <CustomSelect
-          formData={formDatas}
-          setFormData={(name: string, value: string) =>
-            handleFormdatas(name, value)
-          }
-          width={"200px"}
-          search={false}
-          options={StatusOptions}
-          propertyName={"status"}
-        />
+        <Box maxWidth={"150px"} width={"100%"}>
+          <CustomSelect
+            inputProps={{
+              options: StatusOptions,
+              defaultValue: categoryOptions[0],
+            }}
+          />
+        </Box>
 
         <SearchButton
           theme={"white"}

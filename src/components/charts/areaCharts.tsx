@@ -12,7 +12,6 @@ import {
 } from "chart.js";
 import { useEffect, useState } from "react";
 
-
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -24,46 +23,48 @@ ChartJS.register(
   Filler // 1. Register Filler plugin
 );
 export interface IChartApiData {
-  date:[];
-  amount:[];
-  count:number;
+  date: [];
+  amount: [];
+  count: number;
 }
 interface Props {
-  data:{},
-  options:{},
-  ApiData:any
+  data: any;
+  options: {};
+  ApiData: any;
 }
-export function AreaChart({ data,options, ApiData }:Props) {
-  const [chartData, setChartData] = useState<{datasets?:{}[]}>({});
+export function AreaChart({ data, options, ApiData }: Props) {
+  const [chartData, setChartData] = useState<{
+    labels?: string[];
+    datasets?: {}[];
+  }>({});
   const [chartOptions, setChartOptions] = useState({});
 
-  const setChartTypesData =()=>{
-    setChartData(data)
-    setChartOptions(options)
-  }
+  const setChartTypesData = () => {
+    setChartData(data);
+    setChartOptions(options);
+  };
   useEffect(() => {
-   setChartTypesData();
+    setChartTypesData();
   }, []);
-  // console.log("fromCC", ApiData);
+  console.log("fromCC", chartData);
   useEffect(() => {
     if (ApiData?.date) {
       setChartData((prev) => ({
         ...prev,
         labels: ApiData?.date,
-        datasets: prev.datasets?.map((datasets) => {
+        datasets: prev?.datasets?.map((datasets) => {
           return {
             ...datasets,
             data: ApiData?.amount,
           };
         }),
       }));
-    } 
-  // console.log("StaticEarningsData", ApiData,chartData);
-
+    }
+    // console.log("StaticEarningsData", ApiData,chartData);
   }, [ApiData]);
   return (
     <>
-      {Object.keys(chartData).length > 0 ? (
+      {Object?.keys(chartData)?.length > 0 ? (
         <Line
           options={chartOptions}
           data={chartData}

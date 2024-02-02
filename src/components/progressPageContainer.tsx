@@ -1,15 +1,21 @@
 import { Stack, Box } from "@mui/material";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { ParentStack } from "../assets/styles";
 
 import ScrollProgresscard from "./scrollProgresscard";
 
+interface IProps{
+  progressValArr:string[]
+  refHolder:never[]
+  children:ReactNode,
+  progressName:string, 
+}
 function ProgressPageContainer({
   progressValArr,
   refHolder,
   children,
   progressName,
-}) {
+}:IProps) {
   const [currentRefs, setCurrentRefs] = useState([]);
   useEffect(() => {
     setCurrentRefs(refHolder);

@@ -2,39 +2,41 @@ import { SetStateAction, useEffect, useState } from "react";
 import {
   ColorGray,
   ColorGreen,
-  ColorOrange,
   ColorWhite,
 } from "../../../assets/styles/color";
-import { FlexStart, SmallSpan, SpanTag } from "../../../assets/styles";
+import { FlexStart, SpanTag } from "../../../assets/styles";
 
 interface IProps {
   value: SetStateAction<boolean>;
   label?: string;
+  onChange?:(value:boolean)=>void
 }
-function ToogleButton({ value, label }: IProps) {
-  const [toogle, setToogle] = useState<boolean>(false);
-  useEffect(() => setToogle(value), [value]);
+function ToogleButton({ value, label, onChange }: IProps) {
   return (
-    <FlexStart sx={{ padding: "10px 0",cursor:"pointer",userSelect:"none" }} onClick={() => setToogle(!toogle)}>
+    <FlexStart
+      sx={{ padding: "10px 0", cursor: "pointer", userSelect: "none" }}
+      onClick={() =>  onChange(!value)}
+      direction={"row"}
+    >
       <div
         style={{
           position: "relative",
           width: "35px",
           height: "20px",
-          backgroundColor: !toogle ? "white" : ColorGreen,
+          backgroundColor: !value ? "white" : ColorGreen,
           borderRadius: "12px",
-          border: toogle ? `1px solid ${ColorGreen} ` : "1px solid gray",
+          border: value ? `1px solid ${ColorGreen} ` : "1px solid gray",
           transition: "all .7s",
-          opacity: toogle ? 1 : 0.2,
+          opacity: value ? 1 : 0.2,
         }}
       >
         <div
           style={{
-            backgroundColor: toogle ? ColorWhite : ColorGray,
+            backgroundColor: value ? ColorWhite : ColorGray,
             position: "absolute",
-            left: toogle ? "unset" : "3px",
+            left: value ? "unset" : "3px",
             top: "50%",
-            right: toogle ? "3px" : "unset",
+            right: value ? "3px" : "unset",
             display: "flex",
             padding: "7px",
             borderRadius: "50%",
@@ -43,7 +45,11 @@ function ToogleButton({ value, label }: IProps) {
           }}
         ></div>
       </div>
-      {label && <SpanTag style={{color:ColorGreen,fontWeight:500}}>{label}</SpanTag>}
+      {label && (
+        <SpanTag style={{ color: ColorGreen, fontWeight: 500 }}>
+          {label}
+        </SpanTag>
+      )}
     </FlexStart>
   );
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ReusableForm from "../../components/elements/ReusableForm";
 import InputContainer from "../../components/elements/InputContainer";
 import {
@@ -11,6 +11,7 @@ import {
   ParentStack,
   SmallSpan,
   SpaceContainer,
+  SpanTag,
 } from "../../assets/styles";
 import PageHeaderComponent from "../../components/parts/pageheader";
 import ProgressPageContainer from "../../components/progressPageContainer";
@@ -18,20 +19,20 @@ import CustomTextInput from "../../components/elements/inputs/CustomtextInput";
 import useRefContainer from "../../Hooks/useRefContainer";
 import { Stack } from "@mui/material";
 import ImageSelector from "../../components/elements/inputs/ImageSelector";
-import ReuseButton from "../../components/elements/buttons/ReusableButton";
 import FormSaveButton from "../../components/elements/buttons/formSaveButton";
 import CustomSelect from "../../components/elements/inputs/CustomSelect";
 import CustomMultiSelect from "../../components/elements/inputs/CustomMultiSelect";
 import { ProgressValueArrContainer, multiselectOptions } from "../../utils";
 import ToogleButton from "../../components/elements/buttons/ToogleButton";
 import SEOForms from "../../components/forms/SEOForms";
+import { ColorOrange } from "../../assets/styles/color";
 
-function AddProducts() {
-
+function AddUpdateProducts({ pageName }) {
   const { refHolder, pushrefFn } = useRefContainer();
+  const [hasVariation, setHasVariation] = useState(false);
   return (
     <ParentStack>
-      <PageHeaderComponent pageName={"Add Product"}>
+      <PageHeaderComponent pageName={pageName}>
         <></>
       </PageHeaderComponent>
       <ProgressPageContainer
@@ -40,7 +41,6 @@ function AddProducts() {
         progressName={"Product Information"}
         progressLineHeight={"100%"}
       >
-        <ReusableForm>
           <PageHeader ref={(ref) => pushrefFn(ref)}>
             <Stack width={"100%"} spacing={3}>
               <Heading2>Basic Information</Heading2>
@@ -57,21 +57,31 @@ function AddProducts() {
               <InputContainer>
                 <InputLabel> Product Name</InputLabel>
                 <CustomTextInput
-                  changeFunction={() => {}}
-                  iconState={false}
-                  holderText={"Type your product name"}
+                  inputProps={{
+                    placeHolder: "Type your product name",
+                  }}
                 />
-              </InputContainer>
-              <InputContainer>
-                <InputLabel> Short Description</InputLabel>
-                <CustomTextArea />
                 <SmallSpan>
                   Product name is required and recommended to be unique.
                 </SmallSpan>
               </InputContainer>
+              {pageName?.includes("Update") && (
+                <InputContainer>
+                  <InputLabel> Product Slug</InputLabel>
+                  <CustomTextInput
+                    inputProps={{
+                      placeHolder: "Type your product name",
+                    }}
+                  />
+                </InputContainer>
+              )}
+              <InputContainer>
+                <InputLabel> Short Description</InputLabel>
+                <CustomTextArea placeholder="Type your product short description" />
+              </InputContainer>
               <InputContainer>
                 <InputLabel> Description</InputLabel>
-                <CustomTextArea />
+                <CustomTextArea placeholder="Type your product description" />
               </InputContainer>
             </Stack>
           </PageHeader>
@@ -79,11 +89,23 @@ function AddProducts() {
             <Stack width={"100%"} spacing={3}>
               <Heading2>Images</Heading2>
               <InputContainer>
-                <ImageSelector inputName="Thumbnail (592x592)" labelName={"Choose Product Thumbnail"} />
+                <ImageSelector
+                  inputName="Thumbnail (592x592)"
+                  labelName={"Choose Product Thumbnail"}
+                />
               </InputContainer>
               <InputContainer>
-                <ImageSelector inputName="Gallery" labelName={"Choose Product Thumbnail"} />
+                <ImageSelector
+                  inputName="Gallery"
+                  labelName={"Choose Product Thumbnail"}
+                />
               </InputContainer>
+            </Stack>
+          </PageHeader>
+          <PageHeader>
+            <Stack width={"100%"} spacing={1}>
+              <SpanTag>Product Vedio Embeded Link</SpanTag>
+              <CustomTextInput inputProps={{}} />
             </Stack>
           </PageHeader>
           <PageHeader ref={(ref) => pushrefFn(ref)}>
@@ -103,7 +125,7 @@ function AddProducts() {
               <Heading2>Product Tags</Heading2>
               <CustomMultiSelect
                 options={multiselectOptions}
-                defaultValue={null}
+                defaultValue={multiselectOptions[0].value}
                 placeHolderText={"Select tags"}
               />
             </Stack>
@@ -119,14 +141,10 @@ function AddProducts() {
               <Stack width={"100%"} rowGap={3}>
                 <Heading2>Product Brand</Heading2>
                 <CustomSelect
-                  width={"100%"}
-                  search={true}
-                  options={["Select Brand"]}
-                  formData={undefined}
-                  setFormData={function (name: string, data: string): void {
-                    throw new Error("Function not implemented.");
+                  inputProps={{
+                    options: ["Select Brand"],
                   }}
-                  propertyName={undefined}
+                  type={""}
                 />
               </Stack>
             </PageHeader>
@@ -134,26 +152,90 @@ function AddProducts() {
               <Stack width={"100%"} rowGap={3}>
                 <Heading2>Product Unit</Heading2>
                 <CustomSelect
-                  width={"100%"}
-                  search={true}
-                  options={["Select Unit"]}
-                  formData={undefined}
-                  setFormData={function (name: string, data: string): void {
-                    throw new Error("Function not implemented.");
+                  inputProps={{
+                    name: "",
+                    options: ["Select Unit"],
                   }}
-                  propertyName={undefined}
+                  type={""}
                 />
               </Stack>
             </PageHeader>
           </Stack>
           <PageHeader ref={(ref) => pushrefFn(ref)}>
-            <Stack width={"100%"} spacing={3}>
-              <FlexBetween>
+            <Stack width={"100%"} spacing={1}>
+              <FlexBetween direction={"row"}>
                 <Heading2>Price, Sku & Stock</Heading2>
                 <div>
-                  <ToogleButton value={true} label="Has Variation ?" />
+                  <ToogleButton
+                    value={hasVariation}
+                    onChange={setHasVariation}
+                    label="Has Variation ?"
+                  />
                 </div>
               </FlexBetween>
+              {hasVariation ? (
+                <Stack>
+                  <Stack direction={"ro"}></Stack>
+                  <Stack></Stack>
+                  <Stack></Stack>
+                </Stack>
+              ) : (
+                <Stack
+                  direction={"row"}
+                  spacing={2}
+                  className="hasVariationFalse"
+                >
+                  <Stack width={"25%"} spacing={1}>
+                    <InputLabel>
+                      Price <span>*</span>
+                    </InputLabel>
+                    <CustomTextInput
+                      changeFunction={() => {}}
+                      iconState={false}
+                      holderText="Product price"
+                      type="number"
+                    />
+                  </Stack>
+                  <Stack width={"25%"} spacing={1}>
+                    <InputLabel>
+                      Stock{" "}
+                      <span>
+                        *
+                        <SmallSpan style={{ color: ColorOrange }}>
+                          (Default Location)
+                        </SmallSpan>
+                      </span>
+                    </InputLabel>
+                    <CustomTextInput
+                      changeFunction={() => {}}
+                      iconState={false}
+                      holderText="Stock qty"
+                      type="number"
+                    />
+                  </Stack>
+                  <Stack width={"25%"} spacing={1}>
+                    <InputLabel>
+                      SKU <span>*</span>
+                    </InputLabel>
+                    <CustomTextInput
+                      changeFunction={() => {}}
+                      iconState={false}
+                      holderText="Product SKU"
+                    />
+                  </Stack>
+                  <Stack width={"25%"} spacing={1}>
+                    <InputLabel>
+                      {" "}
+                      Code <span>*</span>
+                    </InputLabel>
+                    <CustomTextInput
+                      changeFunction={() => {}}
+                      iconState={false}
+                      holderText="Product code"
+                    />
+                  </Stack>
+                </Stack>
+              )}
             </Stack>
           </PageHeader>
           <PageHeader ref={(ref) => pushrefFn(ref)}>
@@ -194,14 +276,9 @@ function AddProducts() {
                   <InputContainer>
                     <InputLabel>Percent or Fixed</InputLabel>
                     <CustomSelect
-                      width={"100%"}
-                      search={true}
-                      options={["Percent %", "Fixed"]}
-                      formData={undefined}
-                      setFormData={function (name: string, data: string): void {
-                        throw new Error("Function not implemented.");
+                      inputProps={{
+                        options: ["Percent %", "Fixed"],
                       }}
-                      propertyName={undefined}
                     />
                   </InputContainer>
                 </Stack>
@@ -260,12 +337,9 @@ function AddProducts() {
                 <InputContainer>
                   <InputLabel>Percent or Fixed</InputLabel>
                   <CustomSelect
-                    width={"100%"}
-                    search={true}
-                    options={["Percent %", "Fixed"]}
-                    formData={undefined}
-                    setFormData={() => {}}
-                    propertyName={undefined}
+                    inputProps={{
+                      options: ["Percent %", "Fixed"],
+                    }}
                   />
                 </InputContainer>
               </Stack>
@@ -288,12 +362,9 @@ function AddProducts() {
                 <InputContainer>
                   <InputLabel>Percent or Fixed</InputLabel>
                   <CustomSelect
-                    width={"100%"}
-                    search={true}
-                    options={["Percent %", "Fixed"]}
-                    formData={undefined}
-                    setFormData={() => {}}
-                    propertyName={undefined}
+                    inputProps={{
+                      options: ["Percent %", "Fixed"],
+                    }}
                   />
                 </InputContainer>
               </Stack>
@@ -315,12 +386,9 @@ function AddProducts() {
                 <InputContainer>
                   <InputLabel>Percent or Fixed</InputLabel>
                   <CustomSelect
-                    width={"100%"}
-                    search={true}
-                    options={["Percent %", "Fixed"]}
-                    formData={undefined}
-                    setFormData={() => {}}
-                    propertyName={undefined}
+                    inputProps={{
+                      options: ["Percent %", "Fixed"],
+                    }}
                   />
                 </InputContainer>
               </Stack>
@@ -342,12 +410,9 @@ function AddProducts() {
                 <InputContainer>
                   <InputLabel>Percent or Fixed</InputLabel>
                   <CustomSelect
-                    width={"100%"}
-                    search={true}
-                    options={["Percent %", "Fixed"]}
-                    formData={undefined}
-                    setFormData={() => {}}
-                    propertyName={undefined}
+                    inputProps={{
+                      options: ["Percent %", "Fixed"],
+                    }}
                   />
                 </InputContainer>
               </Stack>
@@ -369,12 +434,9 @@ function AddProducts() {
                 <InputContainer>
                   <InputLabel>Percent or Fixed</InputLabel>
                   <CustomSelect
-                    width={"100%"}
-                    search={true}
-                    options={["Percent %", "Fixed"]}
-                    formData={undefined}
-                    setFormData={() => {}}
-                    propertyName={undefined}
+                    inputProps={{
+                      options: ["Percent %", "Fixed"],
+                    }}
                   />
                 </InputContainer>
               </Stack>
@@ -404,14 +466,9 @@ function AddProducts() {
               <Stack width={"100%"} rowGap={3}>
                 <Heading2>Product Status</Heading2>
                 <CustomSelect
-                  width={"100%"}
-                  search={true}
-                  options={["Select Unit"]}
-                  formData={undefined}
-                  setFormData={function (name: string, data: string): void {
-                    throw new Error("Function not implemented.");
+                  inputProps={{
+                    options: ["Percent %", "Fixed"],
                   }}
-                  propertyName={undefined}
                 />
               </Stack>
             </PageHeader>
@@ -420,11 +477,10 @@ function AddProducts() {
             <SEOForms />
           </Stack>
           <FormSaveButton buttonName={"Save Product"} />
-        </ReusableForm>
         <SpaceContainer $space="60vh" />
       </ProgressPageContainer>
     </ParentStack>
   );
 }
 
-export default AddProducts;
+export default AddUpdateProducts;

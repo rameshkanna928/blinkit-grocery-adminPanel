@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart } from "chart.js/auto";
 
 import { ArcElement, Tooltip, Legend } from "chart.js";
 import { ordersChartOptions, ordersChartdata } from "./data";
-import { IChartApiData } from "./areaCharts";
 
 Chart.register(ArcElement, Tooltip, Legend);
 interface Iprops {

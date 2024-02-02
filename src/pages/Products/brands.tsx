@@ -57,7 +57,6 @@ function AllBrands() {
               iconState={true}
               holderText={undefined}
             />
-            <input/>
 
             <CustomSelect
               width={"200px"}
@@ -76,7 +75,6 @@ function AllBrands() {
             />
           </TableComponent>
         </div>
-        <form>
           <ParentStack>
             <div ref={(el) => pushrefFn(el)}>
               <ParentStack>
@@ -117,7 +115,6 @@ function AllBrands() {
               <SpaceContainer $space="650px" />
             </div>
           </ParentStack>
-        </form>
       </ProgressPageContainer>
     </ParentStack>
   );

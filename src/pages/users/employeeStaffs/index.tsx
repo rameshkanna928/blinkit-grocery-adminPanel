@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 
-function AdminRoutes() {
+function index() {
   return <Outlet />;
 }
 
-export default AdminRoutes;
+export default index;

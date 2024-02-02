@@ -22,6 +22,11 @@ function SearchButton({ routeLink, onClick, theme }: IProps) {
       $variant="search"
       $background={theme === "white" ? ColorDullWhite : ColorGreen}
       $hoverbackground={theme === "white" ? LessLightBlue : ColorDarkGreen}
+      style={{
+        border: `1px solid ${
+          theme === "white" ? LessLightBlue : "transparent"
+        }`,
+      }}
     >
       <CustomLink
         $textColor={theme === "white" ? ColorBlack : ColorWhite}

@@ -3,9 +3,7 @@ import {
   FlexBetween,
   Heading2,
   SpanTag,
-  TableSpan,
   TableNumberTag,
-  FlexBox,
 } from "../../assets/styles";
 import TableComponent from "../../components/elements/table";
 import { FetchQuery } from "../../API/service";
@@ -13,9 +11,7 @@ import { useEffect, useState } from "react";
 import { getRecentOrders } from "../../API/query";
 import { DateFormatter, RecenetOrdersHeaders } from "../../utils";
 import TableStatusCard from "../../components/elements/TableStatusCard";
-import CustomTooltip from "../../components/elements/tooltip/CustomTooltip";
 import {
-  ColorDarkGray,
   ColorDarkGreen,
   ColorGreen,
   ColorWhite,
@@ -30,7 +26,7 @@ function RecentOrders() {
     columnHeader: RecenetOrdersHeaders,
     rowData: [],
   });
-  const { LoadQuery, data } = FetchQuery(getRecentOrders);
+  const { LoadQuery } = FetchQuery(getRecentOrders);
   const { ApiResults: ApiAlApiRecentOrders } = UseFetchQuery(LoadQuery, {
     index: 1,
     limit: 10,

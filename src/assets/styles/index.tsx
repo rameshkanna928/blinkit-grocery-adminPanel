@@ -1,12 +1,12 @@
-import { Stack, TextField } from "@mui/material";
+import { Autocomplete, Stack, TextField } from "@mui/material";
 import styled, { createGlobalStyle } from "styled-components";
 import {
+  ColorBlack,
   ColorDarkGray,
   ColorDarkGreen,
   ColorDullWhite,
   ColorGray,
   ColorGreen,
-  ColorLightAsh,
   ColorLightGray,
   ColorLightGreen,
   ColorRed,
@@ -57,7 +57,14 @@ body{
   background-image: url(https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pngegg.com%2Fen%2Fpng-ndgxz&psig=AOvVaw1af4krEEM-TMR0ScUDDSb6&ust=1706617205411000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKDm59nKgoQDFQAAAAAdAAAAABAD) !important;
   right: 12px !important;
 }
-
+.MuiTooltip-tooltip.MuiTooltip-tooltipArrow.MuiTooltip-tooltipPlacementTop{
+  background-color:${ColorBlack};
+  color:${ColorWhite};
+}
+.MuiTooltip-arrow::before{
+    color:${ColorBlack};
+  
+}
 `;
 
 //navbar
@@ -97,6 +104,10 @@ export const NavContainer = styled(Stack)<StyleProps>`
 export const FlexBox = styled(Stack)<{ $routeIcon?: boolean }>`
   align-items: center;
   justify-content: center;
+  .GIcon {
+    color: ${({ theme }) => theme?.svgColor};
+  }
+
   ${(props) =>
     props?.$routeIcon !== undefined &&
     `svg{
@@ -115,11 +126,12 @@ export const SearchWrapper = styled(FlexBox)<{
   justify-content: flex-start;
   ${(props) =>
     props?.$Variant === "productsSearch" &&
-    `border: 1px solid ${props.$focusState ? ColorGreen : LightBorderColor};
+    `border: ${
+      props.$focusState ? `1px solid ${ColorGreen} ` : props?.theme?.cardBorder
+    };
   padding:0 10px;
   border-radius: 4px;
   transition: all 0.7s; 
-  margin:0 20px 0 0;
 background-color:${props.theme.inputBackground};
   `}
 
@@ -174,6 +186,9 @@ export const SideBarContainer = styled(Stack)<StyleProps>`
   background-color: ${({ theme }) => theme.partBackground};
   display: flex !important;
   z-index: 3;
+  ul {
+    height
+  }
 `;
 export const Rounded = styled.div`
   display: flex;
@@ -250,7 +265,7 @@ export const ChildWrapper = styled(Stack)<StyleProps>`
     margin: ${(props) => (props?.$open ? "60px auto 0 0" : "60px auto 0 0")};
   }
 `;
-export const ChildContainer = styled.div`
+export const ChildContainer = styled.div<StyleProps>`
   max-width: ${(props) => (props?.$Pos ? "100%" : "1300px")};
   margin: 15px auto 0 auto;
   display: flex;
@@ -263,7 +278,8 @@ export const CustomSubList = styled.li<StyleProps>`
   list-style: none;
   font-size: 12px;
   padding: 10px 0;
-  color: ${(props) => props?.$curRoute && `${ColorGreen} !important`};
+  color: ${(props) =>
+    props?.$curRoute ? `${ColorGreen} !important` : ColorDarkGray};
   span {
     margin: 0 10px 0 0;
   }
@@ -328,7 +344,6 @@ export const CustomLink = styled(Link)<{ $textColor?: string }>`
   svg {
     height: 18px;
     width: 18px;
-
   }
 `;
 export const CustomButton = styled.button<{
@@ -354,8 +369,7 @@ export const CustomButton = styled.button<{
       padding: ${(props) => (props?.$variant === "search" ? "12px" : "12px")};
     }
   }
-  border: 1px solid
-    ${(props) => (props?.$variant === "search" ? "#dfe3e8" : "transparent")};
+  border: 1px solid transparent;
   background-color: ${(props) => props?.$background};
   border-radius: 6px;
   a {
@@ -384,15 +398,15 @@ export const ButtonGray = styled(CustomButton)`
     }
   }
 `;
-export const CustomSelectInput = styled(FlexBox)`
-  padding: 10px;
+export const CustomSelectInput = styled(Autocomplete)<StyleProps>`
   border-radius: ${(props) => (props?.$open ? "6px 6px 0 0" : "6px")};
-  border: 1px solid ${LightBorderColor};
+  border: ${({ theme }) => theme.cardBorder};
   width: 100%;
   background: ${(props) =>
     props?.$disabled
       ? props?.theme.disableInputBackground
       : props?.theme.inputBackground};
+      user-select:none;
 `;
 export const MUISELECT = styled(TextField)``;
 export const ButtonGreen = styled(CustomButton)`
@@ -495,6 +509,7 @@ export const CustomTextArea = styled.textarea`
   max-height: 100%;
   transition: border 0.7s;
   border-radius: 6px;
+  background: ${({ theme }) => theme.inputBackground};
   &:focus {
     border: 1px solid ${ColorGreen};
   }

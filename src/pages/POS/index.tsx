@@ -38,20 +38,20 @@ import { FiPlus } from "react-icons/fi";
 import { FiPlusCircle } from "react-icons/fi";
 import { GoPersonAdd } from "react-icons/go";
 import CustomSelect from "../../components/elements/inputs/CustomSelect";
+import TableItems from "../../components/elements/TableItems";
+import { useSelector } from "react-redux";
 function index() {
   const [curVariant, setCurVariant] = useState("categ");
   const variant = [
     { label: "Categories", value: "categ" },
     { label: "Brands", value: "brands" },
   ];
+  const {status} =useSelector(state=>state.mode)
   return (
     <Grid container justifyContent={"space-between"} px={2}>
       <Grid item xs={7.9}>
-        
         <Stack spacing={2}>
-  
           <FlexBetween direction={"row"}>
-            
             <FlexStart direction={"row"} padding={"10px 0"} margin={0}>
               {variant?.map((variant) => (
                 <CustomButton
@@ -126,6 +126,7 @@ function index() {
                 style={{
                   padding: "12px 20px",
                   border: `1px solid ${ColorLightAsh}`,
+                  minWidth:"210px"
                 }}
               >
                 <CustomLink
@@ -144,12 +145,11 @@ function index() {
         </Stack>
       </Grid>
       <Grid item xs={3.9}>
-        <CommonCard direction={"row"} justifyContent={"space-between"} p={2}>
-          <FlexBetween direction={"row"} >
-            <Heading2>Billing Section</Heading2>
-            <Stack direction={"row"} columnGap={1} >
+        <CommonCard p={2} minHeight={"90vh"} alignItems={"start"} rowGap={2}>
+          <FlexBetween direction={{xs:"row"}} alignItems={"center"} rowGap={2} flexWrap={"wrap"}>
+            <Heading2 style={{minWidth:"140px"}}>Billing Section</Heading2>
               <CustomSelect
-                width={"150px"}
+                width={"120px"}
                 search={false}
                 options={["Delivered", "Order Placed"]}
                 formData={undefined}
@@ -173,10 +173,9 @@ function index() {
                   </FlexStart>
                 </CustomLink>
               </CustomButton>
-              <CustomButton 
-                 
+              <CustomButton
                 $background={ColorLightOrange2}
-                style={{ padding: "5px 10px",minWidth:"115px" }}
+                style={{ padding: "5px 10px", minWidth: "115px" }}
                 $hoverTextColor={ColorWhite}
                 $hoverbackground={ColorOrange2}
               >
@@ -191,8 +190,21 @@ function index() {
                   </FlexStart>
                 </CustomLink>
               </CustomButton>
-            </Stack>
           </FlexBetween>
+          <Stack bgcolor={status ==="light"?ColorLightGreen:ColorLightGreen2} p={2} width={"100%"} borderRadius={"6px"}>
+            <TableItems
+              data={{
+                name: "Customer",
+                image:
+                  "https://grostore.themetags.com/public/backend/assets/img/placeholder-thumb.png?v=v3.0.0",
+                span: "+xxxxxxxxxx",
+              }}
+              space={false}
+            />
+          </Stack>
+          <Stack>
+            <Heading2>item Table</Heading2>
+          </Stack>
         </CommonCard>
       </Grid>
     </Grid>
